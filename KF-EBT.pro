@@ -1,7 +1,12 @@
 QT += core
 QT -= gui
 
-CONFIG += c++11
+QMAKE_CXXFLAGS -= -O
+QMAKE_CXXFLAGS -= -O1
+QMAKE_CXXFLAGS *= -O2
+
+QMAKE_CXXFLAGS += -std=gnu++11
+QMAKE_CXXFLAGS += -march=corei7 -mtune=corei7
 
 TARGET = KF-EBT
 CONFIG += console
@@ -9,29 +14,42 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
+INCLUDEPATH += /usr/local/include/
+INCLUDEPATH += /usr/local/include/opencv2/
+INCLUDEPATH += /usr/local/include/opencv/
+
+# Opencv
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_ml -lopencv_video -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs
+
 SOURCES += main.cpp \
-    ASMS/colotracker.cpp \
-    ASMS/histogram.cpp \
-    ASMS/region.cpp \
-    kcf/piotr_fhog/gradientMex.cpp \
-    kcf/adjust.cpp \
-    kcf/kcf.cpp
+    trackers/ASMS/colotracker.cpp \
+    trackers/ASMS/histogram.cpp \
+    trackers/ASMS/region.cpp \
+    trackers/kcf/piotr_fhog/gradientMex.cpp \
+    trackers/kcf/adjust.cpp \
+    trackers/kcf/kcf.cpp \
+    kfebt.cpp \
+    trackers/tasms.cpp
 
 HEADERS += \
-    ASMS/colotracker.h \
-    ASMS/histogram.h \
-    ASMS/region.h \
-    kcf/piotr_fhog/fhog.hpp \
-    kcf/piotr_fhog/gradientMex.h \
-    kcf/piotr_fhog/sse.hpp \
-    kcf/piotr_fhog/wrappers.hpp \
-    kcf/adjust.h \
-    kcf/complexmat.hpp \
-    kcf/kcf.h
+    trackers/ASMS/colotracker.h \
+    trackers/ASMS/histogram.h \
+    trackers/ASMS/region.h \
+    trackers/kcf/piotr_fhog/fhog.hpp \
+    trackers/kcf/piotr_fhog/gradientMex.h \
+    trackers/kcf/piotr_fhog/sse.hpp \
+    trackers/kcf/piotr_fhog/wrappers.hpp \
+    trackers/kcf/adjust.h \
+    trackers/kcf/complexmat.hpp \
+    trackers/kcf/kcf.h \
+    trackers/btracker.h \
+    kfebt.h \
+    vot.h \
+    trackers/tasms.h
 
 DISTFILES += \
-    ASMS/CMakeLists.txt \
-    kcf/piotr_fhog/CMakeLists.txt \
-    kcf/CMakeLists.txt \
-    kcf/README.md \
+    trackers/ASMS/CMakeLists.txt \
+    trackers/kcf/piotr_fhog/CMakeLists.txt \
+    trackers/kcf/CMakeLists.txt \
+    trackers/kcf/README.md \
     README.md
