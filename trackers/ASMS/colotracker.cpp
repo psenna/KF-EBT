@@ -68,8 +68,18 @@ void ColorTracker::init(cv::Mat & img, int x1, int y1, int x2, int y2)
 
 }
 
-cv::Point ColorTracker::histMeanShift(double x1, double y1, double x2, double y2)
-{
+void ColorTracker::update(){
+    int x1, x2, y1, y2;
+    x1 = lastPosition.x;
+    y1 = lastPosition.y;
+    x2 = lastPosition.x + lastPosition.width;
+    y2 = lastPosition.y + lastPosition.height;
+
+    extractForegroundHistogram(x1, y1, x2, y2, q_hist);
+    q_orig_hist.adapt(&q_hist, UPDATE_RATE);
+}
+
+cv::Point ColorTracker::histMeanShift(double x1, double y1, double x2, double y2){
     int maxIter = 15;
 
     double w2 = (x2-x1+1)/2;
@@ -265,14 +275,6 @@ cv::Point ColorTracker::histMeanShiftIsotropicScale(double x1, double y1, double
 
 BBox * ColorTracker::track(cv::Mat & img, double x1, double y1, double x2, double y2, double* confidence)
 {
-
-    /*cv::Mat imag = img.clone();
-    cv::line(imag, cv::Point(x1, y1), cv::Point(x1, y2), cv::Scalar(255, 0, 0));
-    cv::line(imag, cv::Point(x1, y1), cv::Point(x2, y1), cv::Scalar(255, 0, 0));
-    cv::line(imag, cv::Point(x2, y1), cv::Point(x2, y2), cv::Scalar(255, 0, 0));
-    cv::line(imag, cv::Point(x2, y2), cv::Point(x1, y2), cv::Scalar(255, 0, 0));
-    cv::imshow("adjkas", imag);*/
-
     double width = x2-x1;
     double height = y2-y1;
 

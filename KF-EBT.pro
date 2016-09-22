@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     trackers/kcf/adjust.cpp \
     trackers/kcf/kcf.cpp \
     kfebt.cpp \
-    trackers/tasms.cpp
+    trackers/tasms.cpp \
+    trackers/tkcf.cpp
 
 HEADERS += \
     trackers/ASMS/colotracker.h \
@@ -45,7 +46,8 @@ HEADERS += \
     trackers/btracker.h \
     kfebt.h \
     vot.h \
-    trackers/tasms.h
+    trackers/tasms.h \
+    trackers/tkcf.h
 
 DISTFILES += \
     trackers/ASMS/CMakeLists.txt \

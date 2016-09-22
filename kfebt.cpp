@@ -1,6 +1,6 @@
 #include "kfebt.h"
 
-KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt)
+KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect initialState)
 {
     KF.init(nStates, nMeasurements, nInputs, CV_64F);                 // init Kalman Filter
     cv::setIdentity(KF.processNoiseCov, cv::Scalar::all(0.8*1e-4));       // set process noise
@@ -34,11 +34,48 @@ KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt)
     //  [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
     //  [0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
     //  [0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+    for(int i = 0; i < nMeasurements/3; i++){
+        KF.measurementMatrix.at<double>(i*3,0) = 1;    // x for Tracker i
+        KF.measurementMatrix.at<double>(i*3+1,1) = 1;  // y for Tracker i
+        KF.measurementMatrix.at<double>(i*3+2,2) = 1;  // Scale for Tracker i
+    }
 
-    KF.measurementMatrix.at<double>(0,0) = 1;  // x ASMS
-    KF.measurementMatrix.at<double>(1,1) = 1;  // y ASMS
-    KF.measurementMatrix.at<double>(2,0) = 1;  // x KCF
-    KF.measurementMatrix.at<double>(3,1) = 1;  // y KCF
-    KF.measurementMatrix.at<double>(4,2) = 1; // Scale ASMS
-    KF.measurementMatrix.at<double>(5,2) = 1;
+    KFMeasures = cv::Mat::zeros(nMeasurements,1, CV_64F);
+
+    KF.statePre.at<double>(0) = initialState.x;
+    KF.statePre.at<double>(0) = initialState.y;
+    KF.statePre.at<double>(0) = initialState.width;
+    KF.statePost.at<double>(0) = initialState.x;
+    KF.statePost.at<double>(0) = initialState.y;
+    KF.statePost.at<double>(0) = initialState.width;
 }
+
+
+void KFEBT::predict(){
+    estimated = KF.predict();
+}
+
+void KFEBT::correct(std::vector<float> measures, std::vector<float> Uncertainty){
+    for(int i = 0; i < measures.size(); i++){
+        KFMeasures.at<double>(i) = measures[i];
+        KF.measurementNoiseCov.at<double>(i,i) = Uncertainty[i];
+    }
+    KF.correct(KFMeasures);
+}
+
+std::vector<float> KFEBT::getFusion(){
+    std::vector<float> ret;
+    ret.push_back(corrected.at<double>(0));
+    ret.push_back(corrected.at<double>(1));
+    ret.push_back(corrected.at<double>(2));
+    return ret;
+}
+
+std::vector<float> KFEBT::getPrediction(){
+    std::vector<float> ret;
+    ret.push_back(estimated.at<double>(0));
+    ret.push_back(estimated.at<double>(1));
+    ret.push_back(estimated.at<double>(2));
+    return ret;
+}
+

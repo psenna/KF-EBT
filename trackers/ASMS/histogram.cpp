@@ -109,6 +109,17 @@ void Histogram::multiplyByWeights(Histogram * hist)
 
     normalize();
 }
+
+void Histogram::adapt(Histogram * hist, float height){
+    for (unsigned int i=0; i < data.size(); ++i) {
+        data[i] *= 1-height;
+        data[i] += (hist->data[i]*height);
+    }
+
+    normalize();
+}
+
+
 void Histogram::clear()
 {
     for (unsigned int i=0; i < data.size(); ++i)

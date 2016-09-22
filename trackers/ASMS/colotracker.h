@@ -17,6 +17,7 @@
 #define BIN_1 16
 #define BIN_2 16
 #define BIN_3 16
+#define UPDATE_RATE 0.00
 
 class ColorTracker
 {
@@ -81,6 +82,7 @@ public:
     {
         return track(img, lastPosition.x, lastPosition.y, lastPosition.x + lastPosition.width, lastPosition.y + lastPosition.height, confidence);
     }
+    void update();
 };
 
 #endif // COLOTRACKER_H

@@ -1,14 +1,14 @@
-#ifndef TASMS_H
-#define TASMS_H
+#ifndef TKCF_H
+#define TKCF_H
 
 #include "btracker.h"
-#include "ASMS/colotracker.h"
+#include "kcf/kcf.h"
+#include "kcf/adjust.h"
 
-
-class tASMS : public BTracker
+class tKCF : public BTracker
 {
 public:
-    tASMS();
+    tKCF();
 
     void run();
 
@@ -18,8 +18,10 @@ public:
     void update(cv::Mat& image);
 
 private:
-    ColorTracker asms;
-
+    KCF_Tracker kcf;
+    Adjust adj;
+    cv::Rect region;
+    cv::Mat grayImage;
 };
 
-#endif // TASMS_H
+#endif // TKCF_H
