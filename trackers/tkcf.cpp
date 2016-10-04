@@ -6,12 +6,12 @@ tKCF::tKCF()
 }
 
 void tKCF::init(cv::Mat& image, cv::Rect region){
-    cv::Mat grayImage;
     cv::cvtColor(image, grayImage, CV_BGR2GRAY);
     cv::Mat kcfPatch = adj.init(grayImage, region);
     kcf.init(kcfPatch);
     ratio = (float)region.height/(float)region.width;
     this->region = region;
+    updateModel = false;
 }
 
 void tKCF::correctState(std::vector<float> st){
@@ -22,9 +22,9 @@ void tKCF::correctState(std::vector<float> st){
     this->region.y = st[1] - (st[2]*ratio/2.0);
 }
 
-void tKCF::track(cv::Mat& image, std::vector<float> predictRect){
+void tKCF::track(){
     cv::Point2f motion;
-    cv::cvtColor(image, grayImage, CV_BGR2GRAY);
+    cv::cvtColor(currentFrame, grayImage, CV_BGR2GRAY);
     cv::Mat kcfPatch = adj.getRect(grayImage, region);
     kcf.track(kcfPatch);
     motion = kcf.getError();
@@ -40,18 +40,27 @@ void tKCF::track(cv::Mat& image, std::vector<float> predictRect){
     state.push_back(region.width);
 
     this->stateUncertainty.clear();
-    float penalityKCF = pow(DIST_ADJ*fabs(state[0] - predictRect[0])/((double)region.width),2)  + pow(DIST_ADJ*fabs(state[1] - predictRect[1])/((double)region.height), 2);
+    float penalityKCF = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)region.width),2)  + pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)region.height), 2);
     float uncertainty = 1e-4*exp(-3.5*(1.1*kcf.correlation - penalityKCF));
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty*5.0);
 }
 
-void tKCF::update(cv::Mat &image){
+void tKCF::update(){
     cv::Mat kcfPatch = adj.getRect(grayImage, region);
     kcf.updateKernel(kcfPatch);
 }
 
 void tKCF::run(){
+    if(updateModel){
+        update();
+    } else {
+        track();
+    }
+}
 
+void tKCF::newFrame(cv::Mat &image, std::vector<float> predictRect){
+    currentFrame = image;
+    currentPredictRect = predictRect;
 }

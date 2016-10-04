@@ -11,6 +11,7 @@ public:
     void predict();
     void correct(std::vector<float> measures, std::vector<float> Uncertainty);
     std::vector<float> getFusion();
+    cv::Rect getResult();
     std::vector<float> getPrediction();
 
 private:
@@ -18,6 +19,7 @@ private:
     cv::Mat estimated;
     cv::Mat corrected;
     cv::Mat KFMeasures;
+    float ratio;
 
 };
 

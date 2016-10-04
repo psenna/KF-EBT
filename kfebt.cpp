@@ -31,8 +31,6 @@ KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect in
     /* MEASUREMENT MODEL */
     //  [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
     //  [0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-    //  [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-    //  [0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
     //  [0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
     for(int i = 0; i < nMeasurements/3; i++){
         KF.measurementMatrix.at<double>(i*3,0) = 1;    // x for Tracker i
@@ -43,11 +41,15 @@ KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect in
     KFMeasures = cv::Mat::zeros(nMeasurements,1, CV_64F);
 
     KF.statePre.at<double>(0) = initialState.x;
-    KF.statePre.at<double>(0) = initialState.y;
-    KF.statePre.at<double>(0) = initialState.width;
+    KF.statePre.at<double>(1) = initialState.y;
+    KF.statePre.at<double>(2) = initialState.width;
     KF.statePost.at<double>(0) = initialState.x;
-    KF.statePost.at<double>(0) = initialState.y;
-    KF.statePost.at<double>(0) = initialState.width;
+    KF.statePost.at<double>(1) = initialState.y;
+    KF.statePost.at<double>(2) = initialState.width;
+
+    estimated = KF.predict();
+    corrected = estimated.clone();
+    ratio = (float)initialState.height/(float)initialState.width;
 }
 
 
@@ -60,7 +62,7 @@ void KFEBT::correct(std::vector<float> measures, std::vector<float> Uncertainty)
         KFMeasures.at<double>(i) = measures[i];
         KF.measurementNoiseCov.at<double>(i,i) = Uncertainty[i];
     }
-    KF.correct(KFMeasures);
+    corrected = KF.correct(KFMeasures);
 }
 
 std::vector<float> KFEBT::getFusion(){
@@ -69,6 +71,15 @@ std::vector<float> KFEBT::getFusion(){
     ret.push_back(corrected.at<double>(1));
     ret.push_back(corrected.at<double>(2));
     return ret;
+}
+
+cv::Rect KFEBT::getResult(){
+    cv::Rect result;
+    result.height = corrected.at<double>(2)*ratio;
+    result.width = corrected.at<double>(2);
+    result.x = corrected.at<double>(0) - corrected.at<double>(2)/2.0;
+    result.y = corrected.at<double>(1) - (corrected.at<double>(2)*ratio/2.0);
+    return result;
 }
 
 std::vector<float> KFEBT::getPrediction(){

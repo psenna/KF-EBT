@@ -14,12 +14,14 @@ public:
 
     void init(cv::Mat& image, cv::Rect region);
     void correctState(std::vector<float> st);
-    void track(cv::Mat& image, std::vector<float> predictRect);
-    void update(cv::Mat& image);
+    void track();
+    void update();
+    void newFrame(cv::Mat& image, std::vector<float> predictRect);
 
 private:
     ColorTracker asms;
-
+    cv::Mat currentFrame;
+    std::vector<float> currentPredictRect;
 };
 
 #endif // TASMS_H

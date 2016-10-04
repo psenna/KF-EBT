@@ -1,14 +1,13 @@
-#ifndef TKCF_H
-#define TKCF_H
+#ifndef TCBT_H
+#define TCBT_H
 
 #include "btracker.h"
-#include "kcf/kcf.h"
-#include "kcf/adjust.h"
+#include "CBT/cbt.h"
 
-class tKCF : public BTracker
+class tCBT : public BTracker
 {
 public:
-    tKCF();
+    tCBT();
 
     void run();
 
@@ -19,12 +18,9 @@ public:
     void newFrame(cv::Mat& image, std::vector<float> predictRect);
 
 private:
-    KCF_Tracker kcf;
-    Adjust adj;
-    cv::Rect region;
-    cv::Mat grayImage;
     cv::Mat currentFrame;
     std::vector<float> currentPredictRect;
+    CBT cbt;
 };
 
-#endif // TKCF_H
+#endif // TCBT_H

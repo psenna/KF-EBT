@@ -5,9 +5,19 @@ tASMS::tASMS()
 
 }
 
+void tASMS::run(){
+    if(updateModel){
+        update();
+    } else {
+        track();
+    }
+}
+
+
 void tASMS::init(cv::Mat& image, cv::Rect region){
     asms.init(image, region.x, region.y, region.x + region.width, region.y + region.height);
     ratio = (float)region.height/(float)region.width;
+    updateModel = false;
 }
 
 void tASMS::correctState(std::vector<float> st){
@@ -18,10 +28,10 @@ void tASMS::correctState(std::vector<float> st){
     asms.lastPosition.y = st[1] - asms.lastPosition.height/2;
 }
 
-void tASMS::track(cv::Mat& image, std::vector<float> predictRect){
+void tASMS::track(){
     double confidenceASMS = 0;
     cv::Rect asmsRect;
-    BBox * bb = asms.track(image, &confidenceASMS);
+    BBox * bb = asms.track(currentFrame, &confidenceASMS);
 
     if (bb != NULL){
         asmsRect = cv::Rect(bb->x + bb->width/2.0, bb->y + bb->height/2.0, bb->width, bb->height);
@@ -35,17 +45,18 @@ void tASMS::track(cv::Mat& image, std::vector<float> predictRect){
     state.push_back(asms.lastPosition.width);
 
     this->stateUncertainty.clear();
-    float penalityASMS = pow(DIST_ADJ*fabs(state[0] - predictRect[0])/((double)asms.lastPosition.width),2)  + pow(DIST_ADJ*fabs(state[1] - predictRect[1])/((double)asms.lastPosition.height), 2);
+    float penalityASMS = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)asms.lastPosition.width),2)  + pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)asms.lastPosition.height), 2);
     float uncertainty = 1e-4*exp(-3.5*(1.0*confidenceASMS - penalityASMS));
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty);
 }
 
-void tASMS::update(cv::Mat& image){
-    asms.update();
+void tASMS::update(){
+    //asms.update();
 }
 
-void tASMS::run(){
-
+void tASMS::newFrame(cv::Mat &image, std::vector<float> predictRect){
+    currentFrame = image;
+    currentPredictRect = predictRect;
 }

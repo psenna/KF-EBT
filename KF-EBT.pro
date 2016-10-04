@@ -30,7 +30,14 @@ SOURCES += main.cpp \
     trackers/kcf/kcf.cpp \
     kfebt.cpp \
     trackers/tasms.cpp \
-    trackers/tkcf.cpp
+    trackers/tkcf.cpp \
+    trackers/CBT/consensus/fastcluster/fastcluster.cpp \
+    trackers/CBT/consensus/common.cpp \
+    trackers/CBT/consensus/Consensus.cpp \
+    trackers/CBT/flow.cpp \
+    trackers/tcbt.cpp \
+    trackers/CBT/cbt.cpp \
+    trackers/CBT/consensus/coloravaliation.cpp
 
 HEADERS += \
     trackers/ASMS/colotracker.h \
@@ -47,7 +54,14 @@ HEADERS += \
     kfebt.h \
     vot.h \
     trackers/tasms.h \
-    trackers/tkcf.h
+    trackers/tkcf.h \
+    trackers/CBT/consensus/fastcluster/fastcluster.h \
+    trackers/CBT/consensus/common.h \
+    trackers/CBT/consensus/Consensus.h \
+    trackers/CBT/flow.h \
+    trackers/tcbt.h \
+    trackers/CBT/cbt.h \
+    trackers/CBT/consensus/coloravaliation.h
 
 DISTFILES += \
     trackers/ASMS/CMakeLists.txt \

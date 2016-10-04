@@ -1,8 +1,10 @@
 // VOT test
 
 #include <opencv2/opencv.hpp>
+#include <unistd.h>
 #include "trackers/tasms.h"
 #include "trackers/tkcf.h"
+#include "trackers/tcbt.h"
 #include "kfebt.h"
 
 #define VOT_RECTANGLE
@@ -13,27 +15,28 @@
 
 int main(){
 
-    // Açocate trackers
+    // Alocate trackers
     tASMS asms;
     tKCF kcf;
+    tCBT cbt;
 
     std::vector<BTracker*> trackers;
-    trackers.push_back(&asms);
+    trackers.push_back(&cbt);
     trackers.push_back(&kcf);
+    trackers.push_back(&asms);
 
     VOT vot;
-    cv::Rect region, predictedRegion;
+    cv::Rect region;
     region << vot.region();
     cv::Mat image = cv::imread(vot.frame());
     vot.report(region);
 
-    for(int i = 0; i < trackers.size(); i++){
+    for(unsigned int i = 0; i < trackers.size(); i++){
         trackers[i]->init(image, region);
     }
 
     // Alocate KFEBT
     KFEBT fusion(9, 3*trackers.size(), 0, 0.05, region);
-    fusion.predict();
 
     std::vector<float> uncertainty, trackersResults;
 
@@ -48,30 +51,53 @@ int main(){
         if(image.empty()){
             break;
         }
-        uncertainty.clear();
-        trackersResults.clear();
 
-        // Track
-        for(int i = 0; i < trackers.size(); i++){
-            trackers[i]->track(image, fusion.getPrediction());
-            uncertainty.insert(uncertainty.end(), trackers[i]->stateUncertainty.begin(), trackers[i]->stateUncertainty.end());
-            trackersResults.insert(trackersResults.end(), trackers[i]->state.begin(), trackers[i]->state.end());
+
+        // Start trackers
+        for(unsigned int i = 0; i < trackers.size(); i++){
+            trackers[i]->newFrame(image, fusion.getPrediction());
+            trackers[i]->start();
         }
 
-        // Correct
+        // Wait and get results
+        uncertainty.clear();
+        trackersResults.clear();
+        for(unsigned int i = 0; i < trackers.size(); i++){
+            trackers[i]->wait();
+            uncertainty.insert(uncertainty.end(), trackers[i]->stateUncertainty.begin(), trackers[i]->stateUncertainty.end());
+            trackersResults.insert(trackersResults.end(), trackers[i]->state.begin(), trackers[i]->state.end());
+            trackers[i]->updateModel = true;
+        }
 
+        // Correct the KF
+        fusion.correct(trackersResults, uncertainty);
 
         // Model Update
-
-
-        // Feedback
-        for(int i = 0; i < trackers.size(); i++){
-            trackers[i]->correctState(fusion.getFusion());
+        for(unsigned int i = 0; i < trackers.size(); i++){
+            trackers[i]->start();
         }
 
         //Report
+        vot.report(fusion.getResult());
+
+        // Wait trackers update process
+        for(unsigned int i = 0; i < trackers.size(); i++){
+            trackers[i]->wait();
+            trackers[i]->updateModel = false;
+        }
+
+        // Feedback
+        for(unsigned int i = 0; i < trackers.size(); i++){
+            trackers[i]->correctState(fusion.getFusion());
+        }
+
+
+        /*cv::rectangle(image, fusion.getResult(), cv::Scalar(255, 0, 0));
+        cv::imshow("resp", image);
+        cv::waitKey(0);*/
 
         fusion.predict();
+
     }
     return 0;
 }

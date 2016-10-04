@@ -25,9 +25,9 @@ public:
 
     virtual void init(cv::Mat& image, cv::Rect region) = 0;
     virtual void correctState(std::vector<float> st) = 0;
-    virtual void track(cv::Mat& image, std::vector<float> predictRect) = 0;
-    virtual void update(cv::Mat& image) = 0;
-
+    virtual void track() = 0;
+    virtual void update() = 0;
+    virtual void newFrame(cv::Mat& image, std::vector<float> predictRect) = 0;
 
 };
 
