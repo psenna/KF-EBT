@@ -11,14 +11,14 @@ void CBT::init(cv::Mat &image, cv::Rect rect){
     cv::Mat grayImage;
     cv::cvtColor(image, grayImage, CV_BGR2GRAY);
     lastPosition = rect;
-    lastImage = image.clone();
-    lastGrayImage = grayImage.clone();
+    lastImage = image;
+    lastGrayImage = grayImage;
 }
 
 
 double CBT::track(cv::Mat &image){
     cv::Mat mask = cv::Mat::zeros(lastImage.size(), CV_8UC1);
-    cv::Mat roi = mask(lastPosition);
+    cv::Mat roi = mask(assertRoi(lastPosition, mask.size()));
     roi.setTo(255);
     cv::Mat grayImage;
     cv::cvtColor(image, grayImage, CV_BGR2GRAY);
@@ -28,9 +28,9 @@ double CBT::track(cv::Mat &image){
 
     std::vector<cv::Point2f> prevPoints, nextPoints;
 
-    cv::goodFeaturesToTrack(grayImage, prevPoints, MAXFEATURES, 0.001, 3, mask);
+    cv::goodFeaturesToTrack(grayImage, prevPoints, MAXFEATURES, 0.05, 4, mask);
     double confidence = 0;
-    if(prevPoints.size() > 0){
+    if(prevPoints.size() > 20){
         std::vector<cv::Point2f> pointsBack;
         std::vector<unsigned char> status_back;
         std::vector<float> err_back;
@@ -48,30 +48,50 @@ double CBT::track(cv::Mat &image){
         }
 
         float foundRate = (float)nextPoints.size()/(float)pointsBack.size();
-        float scale, rotation;
-        std::vector<cv::Point2f> inliers;
-        cv::Point2f center;
-        consensus.initialize(prevPoints);
-        consensus.estimateScaleRotation(nextPoints, scale, rotation);
-        consensus.findConsensus(nextPoints, scale, rotation, center, inliers);
+        if(foundRate > 0.60){
+            float scale, rotation;
+            std::vector<cv::Point2f> inliers;
+            cv::Point2f center;
+            consensus.initialize(prevPoints);
+            consensus.estimateScaleRotation(nextPoints, scale, rotation);
+            consensus.findConsensus(nextPoints, scale, rotation, center, inliers);
 
-        // Compute new position
-        lastPosition.height *= scale;
-        lastPosition.width  *= scale;
-        lastPosition.x += center.x;
-        lastPosition.y += center.y;
+            // Compute new position
+            lastPosition.height *= scale;
+            lastPosition.width  *= scale;
+            //lastPosition.x += center.x;
+            //lastPosition.y += center.y;
 
-        roi = image(lastPosition);
-        double colorConfidence = avaliation.compare(roi);
-        confidence = foundRate * colorConfidence;
+            roi = image(assertRoi(lastPosition, image.size()));
+            double colorConfidence = avaliation.compare(roi);
+            confidence = foundRate * colorConfidence;
+        }
     }
 
-    lastImage = image.clone();
-    lastGrayImage = grayImage.clone();
+    lastImage = image;
+    lastGrayImage = grayImage;
     return confidence;
 }
 
 void CBT::update(cv::Mat &image){
-    cv::Mat roi = image(lastPosition);
+    cv::Mat roi = image(assertRoi(lastPosition, image.size()));
     avaliation.update(roi);
+}
+
+cv::Rect CBT::assertRoi(cv::Rect rect, cv::Size imSize){
+    cv::Rect roi = rect;
+    if(roi.x < 0){
+        roi.width -= roi.x;
+        roi.x = 0;
+    }
+    if(roi.y < 0){
+        roi.height -= roi.y;
+        roi.y = 0;
+    }
+    if(roi.x+roi.width >= imSize.width)
+        roi.width = imSize.width - roi.x - 1;
+    if(roi.y+roi.height >= imSize.height)
+        roi.height = imSize.height - roi.y-1;
+
+    return roi;
 }

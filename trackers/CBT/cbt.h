@@ -33,6 +33,8 @@ private:
     cv::Mat lastImage;
     cv::Mat lastGrayImage;
 
+    cv::Rect assertRoi(cv::Rect rect, cv::Size imSize);
+
 };
 
 #endif // CBT_H

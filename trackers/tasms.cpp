@@ -45,7 +45,9 @@ void tASMS::track(){
     state.push_back(asms.lastPosition.width);
 
     this->stateUncertainty.clear();
-    float penalityASMS = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)asms.lastPosition.width),2)  + pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)asms.lastPosition.height), 2);
+    float penalityASMS = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)asms.lastPosition.width),2)  +
+                         pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)asms.lastPosition.height), 2) +
+                         pow(DIST_ADJ*fabs(state[2] - currentPredictRect[2])/(double)asms.lastPosition.width,2);
     float uncertainty = 1e-4*exp(-3.5*(1.0*confidenceASMS - penalityASMS));
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty);

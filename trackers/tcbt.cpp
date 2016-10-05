@@ -36,8 +36,15 @@ void tCBT::track(){
     state.push_back(cbt.lastPosition.width);
 
     this->stateUncertainty.clear();
-    float penalityCBT = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)cbt.lastPosition.width),2)  + pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)cbt.lastPosition.height), 2);
-    float uncertainty = 1e-4*exp(-3.5*(1*confidence - penalityCBT));
+    float penalityCBT = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)cbt.lastPosition.width),2)  +
+                        pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)cbt.lastPosition.height), 2) +
+                        pow(DIST_ADJ*fabs(state[2] - currentPredictRect[2])/((double)cbt.lastPosition.width),2);
+    float uncertainty;
+    if(confidence != 0)
+        uncertainty = 1e-4*exp(-3.5*(confidence - penalityCBT));
+    else
+        uncertainty = 1;
+
     stateUncertainty.push_back(uncertainty*5);
     stateUncertainty.push_back(uncertainty*5);
     stateUncertainty.push_back(uncertainty);

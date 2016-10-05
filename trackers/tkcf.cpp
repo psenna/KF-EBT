@@ -39,8 +39,10 @@ void tKCF::track(){
     state.push_back((float)region.y + (float)region.height/2.0);
     state.push_back(region.width);
 
-    this->stateUncertainty.clear();
-    float penalityKCF = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)region.width),2)  + pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)region.height), 2);
+    stateUncertainty.clear();
+    float penalityKCF = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)region.width),2)  +
+                        pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)region.height), 2) +
+                        pow(DIST_ADJ*fabs(state[2] - currentPredictRect[2])/((double)region.width),2);
     float uncertainty = 1e-4*exp(-3.5*(1.1*kcf.correlation - penalityKCF));
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty);
