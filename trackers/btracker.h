@@ -8,8 +8,9 @@
 #include <opencv2/opencv.hpp>
 #include <QThread>
 #include <vector>
+#include <cmath>
 
-#define DIST_ADJ 0.40
+#define DIST_ADJ 0.17
 
 
 class BTracker : public QThread

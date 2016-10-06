@@ -11,6 +11,7 @@
 #include <vector>
 #include <cstdlib>
 #include <iostream>
+#include <cmath>
 
 #include "consensus/Consensus.h"
 #include "consensus/coloravaliation.h"
@@ -23,7 +24,7 @@ class CBT
 public:
     CBT();
     void init(cv::Mat& image, cv::Rect rect);
-    double track(cv::Mat &image);
+    double track(cv::Mat &image, float &scale);
     void update(cv::Mat &image);
 
     cv::Rect lastPosition;

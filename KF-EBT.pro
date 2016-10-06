@@ -19,7 +19,7 @@ INCLUDEPATH += /usr/local/include/opencv2/
 INCLUDEPATH += /usr/local/include/opencv/
 
 # Opencv
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_ml -lopencv_video -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_ml -lopencv_video -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs -lopencv_tracking
 
 SOURCES += main.cpp \
     trackers/ASMS/colotracker.cpp \

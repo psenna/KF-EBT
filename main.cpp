@@ -6,6 +6,8 @@
 #include "trackers/tkcf.h"
 #include "trackers/tcbt.h"
 #include "kfebt.h"
+#include <opencv2/tracking.hpp>
+#include <opencv2/tracking/kalman_filters.hpp>
 
 #define VOT_RECTANGLE
 #include "vot.h"
