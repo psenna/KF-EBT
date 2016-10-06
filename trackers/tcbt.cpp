@@ -51,8 +51,8 @@ void tCBT::track(){
     else
         uncertainty = 1;
 
-    stateUncertainty.push_back(uncertainty*3);
-    stateUncertainty.push_back(uncertainty*3);
+    stateUncertainty.push_back(uncertainty*5);
+    stateUncertainty.push_back(uncertainty*5);
     stateUncertainty.push_back(uncertainty);
 }
 

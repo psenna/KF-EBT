@@ -6,7 +6,7 @@
 #include "opencv2/highgui.hpp"
 
 #define BINS 16
-#define ADAPTATION 0.01
+#define ADAPTATION 0.03
 class ColorAvaliation
 {
 public:
