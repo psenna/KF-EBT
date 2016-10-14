@@ -7,6 +7,7 @@
 class KFEBT
 {
 public:
+    KFEBT();
     KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect initialState);
     void predict();
     void correct(std::vector<float> measures, std::vector<float> Uncertainty);

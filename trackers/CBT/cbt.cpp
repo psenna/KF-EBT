@@ -6,7 +6,7 @@ CBT::CBT()
 }
 
 void CBT::init(cv::Mat &image, cv::Rect rect){
-    cv::Mat roi = image(rect);
+    cv::Mat roi = image(assertRoi(rect, image.size()));
     avaliation.init(roi);
     cv::Mat grayImage;
     cv::cvtColor(image, grayImage, CV_BGR2GRAY);
@@ -18,8 +18,12 @@ void CBT::init(cv::Mat &image, cv::Rect rect){
 
 double CBT::track(cv::Mat &image, float &scale){
     cv::Mat mask = cv::Mat::zeros(lastImage.size(), CV_8UC1);
-    cv::Mat roi = mask(assertRoi(lastPosition, mask.size()));
-    roi.setTo(255);
+    cv::Rect r = assertRoi(lastPosition, image.size());
+    cv::Mat roi = mask(r);
+    if(r.width > 0 && r.height > 0){
+        roi.setTo(255);
+    }
+
     cv::Mat grayImage;
     cv::cvtColor(image, grayImage, CV_BGR2GRAY);
 
@@ -28,7 +32,7 @@ double CBT::track(cv::Mat &image, float &scale){
 
     std::vector<cv::Point2f> prevPoints, nextPoints;
 
-    cv::goodFeaturesToTrack(grayImage, prevPoints, MAXFEATURES, 0.05, 4, mask);
+    cv::goodFeaturesToTrack(grayImage, prevPoints, MAXFEATURES, 0.05, 2, mask);
     double confidence = 0;
     scale = 1;
     if(prevPoints.size() > 20){
@@ -49,7 +53,7 @@ double CBT::track(cv::Mat &image, float &scale){
         }
 
         float foundRate = (float)nextPoints.size()/(float)pointsBack.size();
-        if(foundRate > 0.60){
+        if(foundRate > 0.50){
             float rotation;
             std::vector<cv::Point2f> inliers;
             cv::Point2f center;
@@ -63,9 +67,12 @@ double CBT::track(cv::Mat &image, float &scale){
             lastPosition.x = round(center.x + lastPosition.x);
             lastPosition.y = round(center.y + lastPosition.y);
 
-            roi = image(assertRoi(lastPosition, image.size()));
-            double colorConfidence = avaliation.compare(roi);
-            confidence = foundRate * colorConfidence;
+            cv::Rect r = assertRoi(lastPosition, image.size());
+            if(r.width > 0 && r.height > 0){
+                roi = image(r);
+                double colorConfidence = avaliation.compare(roi);
+                confidence = foundRate * colorConfidence;
+            }
         }
     }
 
@@ -75,8 +82,11 @@ double CBT::track(cv::Mat &image, float &scale){
 }
 
 void CBT::update(cv::Mat &image){
-    cv::Mat roi = image(assertRoi(lastPosition, image.size()));
-    avaliation.update(roi);
+    cv::Rect r = assertRoi(lastPosition, image.size());
+    if(r.width > 0 && r.height > 0){
+        cv::Mat roi = image(r);
+        avaliation.update(roi);
+    }
 }
 
 cv::Rect CBT::assertRoi(cv::Rect rect, cv::Size imSize){
@@ -90,9 +100,9 @@ cv::Rect CBT::assertRoi(cv::Rect rect, cv::Size imSize){
         roi.y = 0;
     }
     if(roi.x+roi.width >= imSize.width)
-        roi.width = imSize.width - roi.x - 1;
+        roi.width = imSize.width - roi.x - 2;
     if(roi.y+roi.height >= imSize.height)
-        roi.height = imSize.height - roi.y-1;
+        roi.height = imSize.height - roi.y- 2;
 
     return roi;
 }

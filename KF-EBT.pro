@@ -19,7 +19,7 @@ INCLUDEPATH += /usr/local/include/opencv2/
 INCLUDEPATH += /usr/local/include/opencv/
 
 # Opencv
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_ml -lopencv_video -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs -lopencv_tracking
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_ml -lopencv_video -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs -lopencv_tracking -ltrax
 
 SOURCES += main.cpp \
     trackers/ASMS/colotracker.cpp \
@@ -36,7 +36,11 @@ SOURCES += main.cpp \
     trackers/CBT/consensus/Consensus.cpp \
     trackers/tcbt.cpp \
     trackers/CBT/cbt.cpp \
-    trackers/CBT/consensus/coloravaliation.cpp
+    trackers/CBT/consensus/coloravaliation.cpp \
+    trackers/MOSSE/mosse.cpp \
+    trackers/NCC/ncc.cpp \
+    trackers/tncc.cpp \
+    trackers/tmosse.cpp
 
 HEADERS += \
     trackers/ASMS/colotracker.h \
@@ -59,7 +63,11 @@ HEADERS += \
     trackers/CBT/consensus/Consensus.h \
     trackers/tcbt.h \
     trackers/CBT/cbt.h \
-    trackers/CBT/consensus/coloravaliation.h
+    trackers/CBT/consensus/coloravaliation.h \
+    trackers/MOSSE/mosse.h \
+    trackers/NCC/ncc.h \
+    trackers/tncc.h \
+    trackers/tmosse.h
 
 DISTFILES += \
     trackers/ASMS/CMakeLists.txt \

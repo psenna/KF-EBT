@@ -1,5 +1,10 @@
 #include "kfebt.h"
 
+
+KFEBT::KFEBT(){
+
+}
+
 KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect initialState)
 {
     KF.init(nStates, nMeasurements, nInputs, CV_64F);                 // init Kalman Filter
@@ -40,12 +45,12 @@ KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect in
 
     KFMeasures = cv::Mat::zeros(nMeasurements,1, CV_64F);
 
-    KF.statePre.at<double>(0) = initialState.x;
-    KF.statePre.at<double>(1) = initialState.y;
-    KF.statePre.at<double>(2) = initialState.width;
-    KF.statePost.at<double>(0) = initialState.x;
-    KF.statePost.at<double>(1) = initialState.y;
-    KF.statePost.at<double>(2) = initialState.width;
+    KF.statePre.at<double>(0) = (double)initialState.x + (double)(initialState.width)/2.0;
+    KF.statePre.at<double>(1) = (double)initialState.y + (double)(initialState.height)/2.0;
+    KF.statePre.at<double>(2) = (double)initialState.width;
+    KF.statePost.at<double>(0) = (double)initialState.x + (double)(initialState.width)/2.0;
+    KF.statePost.at<double>(1) = (double)initialState.y + (double)(initialState.height)/2.0;
+    KF.statePost.at<double>(2) = (double)initialState.width;
 
     estimated = KF.predict();
     corrected = estimated.clone();

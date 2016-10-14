@@ -1,13 +1,14 @@
-#ifndef TCBT_H
-#define TCBT_H
+#ifndef TMOSSE_H
+#define TMOSSE_H
 
 #include "btracker.h"
-#include "CBT/cbt.h"
+#include "MOSSE/mosse.h"
+#include "kcf/adjust.h"
 
-class tCBT : public BTracker
+class tMosse : public BTracker
 {
 public:
-    tCBT();
+    tMosse();
 
     void run();
 
@@ -18,10 +19,12 @@ public:
     void newFrame(cv::Mat& image, std::vector<float> predictRect);
 
 private:
+    Mosse mosse;
+    Adjust adj;
+    cv::Rect region;
+    cv::Mat grayImage;
     cv::Mat currentFrame;
     std::vector<float> currentPredictRect;
-    CBT cbt;
-    float initialWidth;
 };
 
-#endif // TCBT_H
+#endif // TMOSSE_H

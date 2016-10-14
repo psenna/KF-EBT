@@ -1,13 +1,13 @@
-#ifndef TCBT_H
-#define TCBT_H
+#ifndef TNCC_H
+#define TNCC_H
 
 #include "btracker.h"
-#include "CBT/cbt.h"
+#include "NCC/ncc.h"
 
-class tCBT : public BTracker
+class tncc : public BTracker
 {
 public:
-    tCBT();
+    tncc();
 
     void run();
 
@@ -18,10 +18,12 @@ public:
     void newFrame(cv::Mat& image, std::vector<float> predictRect);
 
 private:
+
+    NCCTracker ncc;
+    cv::Rect region;
+    cv::Mat grayImage;
     cv::Mat currentFrame;
     std::vector<float> currentPredictRect;
-    CBT cbt;
-    float initialWidth;
 };
 
-#endif // TCBT_H
+#endif // TNCC_H
