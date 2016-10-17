@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     trackers/MOSSE/mosse.cpp \
     trackers/NCC/ncc.cpp \
     trackers/tncc.cpp \
-    trackers/tmosse.cpp
+    trackers/tmosse.cpp \
+    trackers/tvdp.cpp
 
 HEADERS += \
     trackers/ASMS/colotracker.h \
@@ -67,7 +68,8 @@ HEADERS += \
     trackers/MOSSE/mosse.h \
     trackers/NCC/ncc.h \
     trackers/tncc.h \
-    trackers/tmosse.h
+    trackers/tmosse.h \
+    trackers/tvdp.h
 
 DISTFILES += \
     trackers/ASMS/CMakeLists.txt \

@@ -23,7 +23,7 @@ class CBT
 {
 public:
     CBT();
-    void init(cv::Mat& image, cv::Rect rect);
+    void init(cv::Mat& image, cv::Rect rect, bool findConsensus);
     double track(cv::Mat &image, float &scale);
     void update(cv::Mat &image);
 
@@ -33,7 +33,7 @@ private:
     cmt::Consensus consensus;
     cv::Mat lastImage;
     cv::Mat lastGrayImage;
-
+    bool findConsensus = true;
     cv::Rect assertRoi(cv::Rect rect, cv::Size imSize);
 
 };

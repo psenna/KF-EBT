@@ -1,11 +1,11 @@
-#include "tcbt.h"
+#include "tvdp.h"
 
-tCBT::tCBT()
+tVDP::tVDP()
 {
 
 }
 
-void tCBT::run(){
+void tVDP::run(){
     if(updateModel){
         update();
     } else {
@@ -13,8 +13,8 @@ void tCBT::run(){
     }
 }
 
-void tCBT::init(cv::Mat &image, cv::Rect region){
-    cbt.init(image, region, true);
+void tVDP::init(cv::Mat &image, cv::Rect region){
+    cbt.init(image, region, false);
     ratio = (float)region.height/(float)region.width;
     updateModel = false;
     state.clear();
@@ -23,7 +23,7 @@ void tCBT::init(cv::Mat &image, cv::Rect region){
     state.push_back(region.width);
 }
 
-void tCBT::correctState(std::vector<float> st){
+void tVDP::correctState(std::vector<float> st){
     this->state = st;
     cbt.lastPosition.height = round(st[2]*ratio);
     cbt.lastPosition.width = round(st[2]);
@@ -31,7 +31,7 @@ void tCBT::correctState(std::vector<float> st){
     cbt.lastPosition.y = round(st[1] - (st[2]*ratio/2.0));
 }
 
-void tCBT::track(){
+void tVDP::track(){
     float scale;
     double confidence = cbt.track(currentFrame, scale);
     float newWidth = state[2]*scale;
@@ -51,17 +51,16 @@ void tCBT::track(){
         uncertainty = 1;
     }
 
-    stateUncertainty.push_back(uncertainty*5);
-    stateUncertainty.push_back(uncertainty*5);
+    stateUncertainty.push_back(uncertainty*7);
+    stateUncertainty.push_back(uncertainty*7);
     stateUncertainty.push_back(uncertainty);
 }
 
-void tCBT::update(){
+void tVDP::update(){
     cbt.update(currentFrame);
 }
 
-void tCBT::newFrame(cv::Mat &image, std::vector<float> predictRect){
+void tVDP::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentFrame = image;
     currentPredictRect = predictRect;
 }
-

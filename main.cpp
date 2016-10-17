@@ -6,6 +6,7 @@
 #include "trackers/tkcf.h"
 #include "trackers/tcbt.h"
 #include "trackers/tmosse.h"
+#include "trackers/tvdp.h"
 #include "kfebt.h"
 #include <opencv2/tracking.hpp>
 #include <opencv2/tracking/kalman_filters.hpp>
@@ -18,9 +19,11 @@ int main(){
     tASMS asms;
     tKCF kcf;
     tCBT cbt;
+    tVDP vdp;
 
     std::vector<BTracker*> trackers;
-    trackers.push_back(&cbt);
+    //trackers.push_back(&cbt);
+    trackers.push_back(&vdp);
     trackers.push_back(&kcf);
     trackers.push_back(&asms);
 

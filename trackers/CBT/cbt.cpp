@@ -5,7 +5,7 @@ CBT::CBT()
 
 }
 
-void CBT::init(cv::Mat &image, cv::Rect rect){
+void CBT::init(cv::Mat &image, cv::Rect rect, bool findConsensus){
     cv::Mat roi = image(assertRoi(rect, image.size()));
     avaliation.init(roi);
     cv::Mat grayImage;
@@ -13,6 +13,7 @@ void CBT::init(cv::Mat &image, cv::Rect rect){
     lastPosition = rect;
     lastImage = image;
     lastGrayImage = grayImage;
+    this->findConsensus = findConsensus;
 }
 
 
@@ -59,20 +60,27 @@ double CBT::track(cv::Mat &image, float &scale){
             cv::Point2f center;
             consensus.initialize(prevPoints);
             consensus.estimateScaleRotation(nextPoints, scale, rotation);
-            consensus.findConsensus(nextPoints, scale, rotation, center, inliers);
-
-            // Compute new position
             lastPosition.height = round(scale * lastPosition.height);
             lastPosition.width  = round(scale * lastPosition.width);
-            lastPosition.x = round(center.x + lastPosition.x);
-            lastPosition.y = round(center.y + lastPosition.y);
 
-            cv::Rect r = assertRoi(lastPosition, image.size());
-            if(r.width > 0 && r.height > 0){
-                roi = image(r);
-                double colorConfidence = avaliation.compare(roi);
-                confidence = foundRate * colorConfidence;
+            if(findConsensus){
+                consensus.findConsensus(nextPoints, scale, rotation, center, inliers);
+
+                // Compute new position
+                lastPosition.x = round(center.x + lastPosition.x);
+                lastPosition.y = round(center.y + lastPosition.y);
+
+                cv::Rect r = assertRoi(lastPosition, image.size());
+                if(r.width > 0 && r.height > 0){
+                    roi = image(r);
+                    double colorConfidence = avaliation.compare(roi);
+                    confidence = foundRate * colorConfidence;
+                }
+            } else {
+                confidence = foundRate*0.8;
             }
+
+
         }
     }
 

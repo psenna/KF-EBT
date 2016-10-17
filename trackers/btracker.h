@@ -10,8 +10,7 @@
 #include <vector>
 #include <cmath>
 
-#define DIST_ADJ 0.3
-
+#define DIST_ADJ 0.25
 
 class BTracker : public QThread
 {
