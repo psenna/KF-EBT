@@ -32,3 +32,7 @@ void tncc::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentFrame = image;
     currentPredictRect = predictRect;
 }
+
+cv::Rect tncc::getRect(){
+    return cv::Rect();
+}

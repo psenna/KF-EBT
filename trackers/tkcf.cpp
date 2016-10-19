@@ -12,6 +12,9 @@ void tKCF::init(cv::Mat& image, cv::Rect region){
     ratio = (float)region.height/(float)region.width;
     this->region = region;
     updateModel = false;
+    state.push_back(region.x);
+    state.push_back(region.y);
+    state.push_back(region.width);
 }
 
 void tKCF::correctState(std::vector<float> st){
@@ -23,6 +26,9 @@ void tKCF::correctState(std::vector<float> st){
 }
 
 void tKCF::track(){
+    /*cv::Mat imag = currentFrame.clone();
+    cv::rectangle(imag, region, cv::Scalar(0, 255, 0));*/
+
     cv::Point2f motion;
     cv::cvtColor(currentFrame, grayImage, CV_BGR2GRAY);
     cv::Mat kcfPatch = adj.getRect(grayImage, region);
@@ -30,14 +36,12 @@ void tKCF::track(){
     motion = kcf.getError();
     motion.x *= adj.ratio[0];
     motion.y *= adj.ratio[1];
-
-    region.x += motion.x;
-    region.y += motion.y;
+    float width = state[2];
 
     state.clear();
-    state.push_back(round((float)region.x + (float)region.width/2.0));
-    state.push_back(round((float)region.y + (float)region.height/2.0));
-    state.push_back(region.width);
+    state.push_back(round((float)region.x + motion.x + (float)region.width/2.0));
+    state.push_back(round((float)region.y + motion.y + (float)region.height/2.0));
+    state.push_back(width);
 
     stateUncertainty.clear();
     float penalityKCF = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)region.width),2)  +
@@ -47,6 +51,12 @@ void tKCF::track(){
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty);
     stateUncertainty.push_back(uncertainty*5.0);
+
+    region.x += round(motion.x);
+    region.y += round(motion.y);
+
+    /*cv::rectangle(imag, region, cv::Scalar(255, 0, 0));
+    cv::imshow("aaaa", imag);*/
 }
 
 void tKCF::update(){
@@ -65,4 +75,13 @@ void tKCF::run(){
 void tKCF::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentFrame = image;
     currentPredictRect = predictRect;
+}
+
+cv::Rect tKCF::getRect(){
+    cv::Rect rect;
+    rect.x = round(region.x);
+    rect.y = round(region.y);
+    rect.width = round(region.width);
+    rect.height = round(region.height);
+    return rect;
 }

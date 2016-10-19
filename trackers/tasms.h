@@ -17,6 +17,7 @@ public:
     void track();
     void update();
     void newFrame(cv::Mat& image, std::vector<float> predictRect);
+    cv::Rect getRect();
 
 private:
     ColorTracker asms;

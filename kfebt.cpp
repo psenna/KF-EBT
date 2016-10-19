@@ -80,10 +80,10 @@ std::vector<float> KFEBT::getFusion(){
 
 cv::Rect KFEBT::getResult(){
     cv::Rect result;
-    result.height = corrected.at<double>(2)*ratio;
-    result.width = corrected.at<double>(2);
-    result.x = corrected.at<double>(0) - corrected.at<double>(2)/2.0;
-    result.y = corrected.at<double>(1) - (corrected.at<double>(2)*ratio/2.0);
+    result.height = round(corrected.at<double>(2)*ratio);
+    result.width = round(corrected.at<double>(2));
+    result.x = round(corrected.at<double>(0) - corrected.at<double>(2)/2.0);
+    result.y = round(corrected.at<double>(1) - (corrected.at<double>(2)*ratio/2.0));
     return result;
 }
 

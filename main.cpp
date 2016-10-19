@@ -10,7 +10,6 @@
 #include "kfebt.h"
 #include <opencv2/tracking.hpp>
 #include <opencv2/tracking/kalman_filters.hpp>
-
 #include "trax.h"
 
 int main(){
@@ -22,10 +21,10 @@ int main(){
     tVDP vdp;
 
     std::vector<BTracker*> trackers;
-    //trackers.push_back(&cbt);
-    trackers.push_back(&vdp);
-    trackers.push_back(&kcf);
-    trackers.push_back(&asms);
+    trackers.push_back(&cbt);
+    //trackers.push_back(&vdp);
+    //trackers.push_back(&kcf);
+    //trackers.push_back(&asms);
 
     trax_handle* trax;
     trax_configuration config;

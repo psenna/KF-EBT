@@ -62,3 +62,12 @@ void tASMS::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentFrame = image;
     currentPredictRect = predictRect;
 }
+
+cv::Rect tASMS::getRect(){
+    cv::Rect rect;
+    rect.x = round(asms.lastPosition.x);
+    rect.y = round(asms.lastPosition.y);
+    rect.width = round(asms.lastPosition.width);
+    rect.height = round(asms.lastPosition.height);
+    return rect;
+}

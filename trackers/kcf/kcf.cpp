@@ -53,7 +53,7 @@ void KCF_Tracker::track(cv::Mat &img)
     double min_val, max_val;
     cv::Point2i min_loc, max_loc;
     cv::minMaxLoc(response, &min_val, &max_val, &min_loc, &max_loc);
-
+    cv::imshow("kcf", response);
     correlation = max_val;
 
     if (max_loc.y > zf.rows/2) //wrap around to negative half-space of vertical axis
@@ -62,8 +62,8 @@ void KCF_Tracker::track(cv::Mat &img)
         max_loc.x = max_loc.x - zf.cols;
 
     //shift bbox, no scale change
-    this->error.x = p_cell_size * max_loc.x;
-    this->error.y = p_cell_size * max_loc.y;
+    this->error.x = (float)p_cell_size * (float)max_loc.x;
+    this->error.y = (float)p_cell_size * (float)max_loc.y;
 
     //    ComplexMat alphaf_num = p_yf * kf;
     //    ComplexMat alphaf_den = kf * (kf + p_lambda);

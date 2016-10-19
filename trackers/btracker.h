@@ -29,6 +29,8 @@ public:
     virtual void update() = 0;
     virtual void newFrame(cv::Mat& image, std::vector<float> predictRect) = 0;
 
+    virtual cv::Rect getRect() = 0;
+
 };
 
 #endif // BTRACKER_H

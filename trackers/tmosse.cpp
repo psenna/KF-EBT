@@ -64,3 +64,7 @@ void tMosse::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentFrame = image;
     currentPredictRect = predictRect;
 }
+
+cv::Rect tMosse::getRect(){
+    return cv::Rect();
+}

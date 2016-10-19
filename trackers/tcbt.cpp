@@ -65,3 +65,12 @@ void tCBT::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentPredictRect = predictRect;
 }
 
+cv::Rect tCBT::getRect(){
+    cv::Rect rect;
+    rect.x = round(cbt.lastPosition.x);
+    rect.y = round(cbt.lastPosition.y);
+    rect.width = round(cbt.lastPosition.width);
+    rect.height = round(cbt.lastPosition.height);
+    return rect;
+}
+

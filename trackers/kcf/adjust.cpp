@@ -47,11 +47,10 @@ cv::Mat Adjust::init(cv::Mat& image, cv::Rect rect){
     cv::Mat transformMatrix = cv::getAffineTransform(srcTri, dstObj);
     cv::Mat result;
 
-    cv::warpAffine(image, result, transformMatrix, this->size, cv::INTER_CUBIC);
+    cv::warpAffine(image, result, transformMatrix, this->size, cv::INTER_LINEAR);
 
-    ratio[0] = cv::norm(srcTri[0]-srcTri[1])/cv::norm(dstObj[0]-dstObj[1]);
-    ratio[1] = cv::norm(srcTri[1]-srcTri[2])/cv::norm(dstObj[1]-dstObj[2]);
-
+    ratio[0] = cv::norm(srcTri[1]-srcTri[2])/cv::norm(dstObj[1]-dstObj[2]);
+    ratio[1] = cv::norm(srcTri[0]-srcTri[1])/cv::norm(dstObj[0]-dstObj[1]);
     return result;
 
 }
@@ -64,7 +63,7 @@ cv::Mat Adjust::getRect(cv::Mat& image, cv::Rect rect){
     cv::Mat transformMatrix = cv::getAffineTransform(srcTri, dstObj);
     cv::Mat result;
 
-    cv::warpAffine(image, result, transformMatrix, this->size, cv::INTER_CUBIC);
+    cv::warpAffine(image, result, transformMatrix, this->size, cv::INTER_LINEAR);
 
     ratio[0] = cv::norm(srcTri[0]-srcTri[1])/cv::norm(dstObj[0]-dstObj[1]);
     ratio[1] = cv::norm(srcTri[1]-srcTri[2])/cv::norm(dstObj[1]-dstObj[2]);

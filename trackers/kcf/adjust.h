@@ -3,7 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#define MINSIZE 1
+#define MINSIZE 44
 #define KCF_PADDING 1.5
 
 class Adjust

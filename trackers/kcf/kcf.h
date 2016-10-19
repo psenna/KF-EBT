@@ -60,7 +60,7 @@ private:
     double p_output_sigma;
     double p_kernel_sigma = 0.5;    //def = 0.5
     double p_lambda = 1e-4;         //regularization in learning step
-    double p_interp_factor = 0.01;  //def = 0.02, linear interpolation factor for adaptation
+    double p_interp_factor = 0.02;  //def = 0.02, linear interpolation factor for adaptation
     int p_cell_size = 4;            //4 for hog (= bin_size)
     int p_windows_size[2];
     cv::Mat p_cos_window;
