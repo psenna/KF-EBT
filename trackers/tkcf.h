@@ -8,7 +8,7 @@
 class tKCF : public BTracker
 {
 public:
-    tKCF();
+    tKCF(float dist_adj = DIST_ADJ, float conf_adj = 1.1);
 
     void run();
 

@@ -1,8 +1,9 @@
 #include "tcbt.h"
 
-tCBT::tCBT()
+tCBT::tCBT(float dist_adj, float conf_adj)
 {
-
+    this->dist_adj = dist_adj;
+    this->conf_adj = conf_adj;
 }
 
 void tCBT::run(){
@@ -37,12 +38,12 @@ void tCBT::track(){
     float newWidth = state[2]*scale;
 
     this->stateUncertainty.clear();
-    float penalityCBT = pow(DIST_ADJ*fabs(state[0] - currentPredictRect[0])/((double)cbt.lastPosition.width),2)  +
-                        pow(DIST_ADJ*fabs(state[1] - currentPredictRect[1])/((double)cbt.lastPosition.height), 2);// +
-                        //pow(DIST_ADJ*fabs(state[2] - currentPredictRect[2])/((double)cbt.lastPosition.width),2);
+    float penalityCBT = pow(dist_adj*fabs(state[0] - currentPredictRect[0])/((double)cbt.lastPosition.width),2)  +
+                        pow(dist_adj*fabs(state[1] - currentPredictRect[1])/((double)cbt.lastPosition.height), 2);// +
+                        //pow(dist_adj*fabs(state[2] - currentPredictRect[2])/((double)cbt.lastPosition.width),2);
     float uncertainty;
     if(confidence != 0){
-        uncertainty = 1e-4*exp(-3.5*(0.9*confidence - penalityCBT));
+        uncertainty = 1e-4*exp(-3.5*(conf_adj*confidence - penalityCBT));
         state.clear();
         state.push_back(round((float)cbt.lastPosition.x + (float)cbt.lastPosition.width/2.0));
         state.push_back(round((float)cbt.lastPosition.y + (float)cbt.lastPosition.height/2.0));

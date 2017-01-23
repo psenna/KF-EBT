@@ -1,8 +1,12 @@
 #include "kfebt.h"
-
+#include "stdlib.h"
 
 KFEBT::KFEBT(){
 
+}
+
+void KFEBT::setProcessCov(float cov){
+    cv::setIdentity(KF.processNoiseCov, cv::Scalar::all(cov));
 }
 
 KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect initialState)
@@ -11,18 +15,8 @@ KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect in
     cv::setIdentity(KF.processNoiseCov, cv::Scalar::all(0.8*1e-4));       // set process noise
     cv::setIdentity(KF.measurementNoiseCov, cv::Scalar::all(1e-5));   // set measurement noise
     cv::setIdentity(KF.errorCovPost, cv::Scalar::all(1));             // error covariance
-    /* DYNAMIC MODEL */
-    //  [1 0 d dt  0  0 dt2   0   0 0 0 0  0  0  0   0   0   0]
-    //  [0 1 0  0 dt  0   0 dt2   0 0 0 0  0  0  0   0   0   0]
-    //  [0 0 1  0  0 dt   0   0 dt2 0 0 0  0  0  0   0   0   0]
-    //  [0 0 0  1  0  0  dt   0   0 0 0 0  0  0  0   0   0   0]
-    //  [0 0 0  0  1  0   0  dt   0 0 0 0  0  0  0   0   0   0]
-    //  [0 0 0  0  0  1   0   0  dt 0 0 0  0  0  0   0   0   0]
-    //  [0 0 0  0  0  0   1   0   0 0 0 0  0  0  0   0   0   0]
-    //  [0 0 0  0  0  0   0   1   0 0 0 0  0  0  0   0   0   0]
-    //  [0 0 0  0  0  0   0   0   1 0 0 0  0  0  0   0   0   0]
 
-    // position
+    // model
     KF.transitionMatrix.at<double>(0,3) = dt;
     KF.transitionMatrix.at<double>(1,4) = dt;
     KF.transitionMatrix.at<double>(2,5) = dt;
@@ -59,7 +53,7 @@ KFEBT::KFEBT(int nStates, int nMeasurements, int nInputs, double dt, cv::Rect in
 
 
 void KFEBT::predict(){
-    estimated = KF.predict();
+    estimated = KF.predict().clone();
 }
 
 void KFEBT::correct(std::vector<float> measures, std::vector<float> Uncertainty){
@@ -67,7 +61,7 @@ void KFEBT::correct(std::vector<float> measures, std::vector<float> Uncertainty)
         KFMeasures.at<double>(i) = measures[i];
         KF.measurementNoiseCov.at<double>(i,i) = Uncertainty[i];
     }
-    corrected = KF.correct(KFMeasures);
+    corrected = KF.correct(KFMeasures).clone();
 }
 
 std::vector<float> KFEBT::getFusion(){

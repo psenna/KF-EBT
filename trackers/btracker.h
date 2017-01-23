@@ -10,7 +10,7 @@
 #include <vector>
 #include <cmath>
 
-#define DIST_ADJ 0.25
+#define DIST_ADJ 0.30
 
 class BTracker : public QThread
 {
@@ -19,6 +19,8 @@ class BTracker : public QThread
 public:
     bool ok;
     bool updateModel;
+    float dist_adj;
+    float conf_adj;
     double ratio;
     std::vector<float> state;
     std::vector<float> stateUncertainty;

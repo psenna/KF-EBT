@@ -14,6 +14,7 @@ public:
     std::vector<float> getFusion();
     cv::Rect getResult();
     std::vector<float> getPrediction();
+    void setProcessCov(float cov);
 
 private:
     cv::KalmanFilter KF;

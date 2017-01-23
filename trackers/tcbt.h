@@ -7,7 +7,7 @@
 class tCBT : public BTracker
 {
 public:
-    tCBT();
+    tCBT(float dist_adj = DIST_ADJ, float conf_adj = 0.9);
 
     void run();
 

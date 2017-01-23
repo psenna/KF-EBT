@@ -20,8 +20,8 @@ void CBT::init(cv::Mat &image, cv::Rect rect, bool findConsensus){
 double CBT::track(cv::Mat &image, float &scale){
     cv::Mat mask = cv::Mat::zeros(lastImage.size(), CV_8UC1);
     cv::Rect r = assertRoi(lastPosition, image.size());
-    cv::Mat roi = mask(r);
     if(r.width > 0 && r.height > 0){
+        cv::Mat roi = mask(r);
         roi.setTo(255);
     }
 
@@ -72,12 +72,12 @@ double CBT::track(cv::Mat &image, float &scale){
 
                 cv::Rect r = assertRoi(lastPosition, image.size());
                 if(r.width > 0 && r.height > 0){
-                    roi = image(r);
+                    cv::Mat roi = image(r);
                     double colorConfidence = avaliation.compare(roi);
                     confidence = foundRate * colorConfidence;
                 }
             } else {
-                confidence = foundRate*0.8;
+                confidence = foundRate;
             }
 
 

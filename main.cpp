@@ -12,19 +12,22 @@
 #include <opencv2/tracking/kalman_filters.hpp>
 #include "trax.h"
 
-int main(){
+int main(int argc, char *argv[]){
+
+    float ajuste = 0.35;
 
     // Alocate trackers
-    tASMS asms;
-    tKCF kcf;
-    tCBT cbt;
-    tVDP vdp;
+    tASMS asms(ajuste, 1.00);
+    tKCF kcf(ajuste, 1.10);
+    tCBT cbt(ajuste, 0.45);
+    tVDP vdp(ajuste, 0.60);
+    KFEBT fusion;
 
     std::vector<BTracker*> trackers;
-    trackers.push_back(&cbt);
-    //trackers.push_back(&vdp);
-    //trackers.push_back(&kcf);
-    //trackers.push_back(&asms);
+    //trackers.push_back(&cbt);
+    trackers.push_back(&vdp);
+    trackers.push_back(&kcf);
+    trackers.push_back(&asms);
 
     trax_handle* trax;
     trax_configuration config;
@@ -40,10 +43,6 @@ int main(){
     cv::Mat image;
     std::vector<float> uncertainty, trackersResults;
     bool run = 1;
-
-    KFEBT fusion;
-
-
 
     while (run){
 
@@ -68,6 +67,11 @@ int main(){
 
             // Alocate KFEBT
             fusion = KFEBT(9, 3*trackers.size(), 0, 0.05, region);
+            if(argc >= 7){
+                float adj = atof(argv[5]);
+                fusion.setProcessCov(adj);
+            }
+
 
             trax_server_reply(trax, rect, NULL);
 

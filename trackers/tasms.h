@@ -8,7 +8,7 @@
 class tASMS : public BTracker
 {
 public:
-    tASMS();
+    tASMS(float dist_adj = DIST_ADJ, float conf_adj = 1.0);
 
     void run();
 

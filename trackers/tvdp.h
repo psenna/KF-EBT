@@ -8,7 +8,7 @@
 class tVDP : public BTracker
 {
 public:
-    tVDP();
+    tVDP(float dist_adj = DIST_ADJ, float conf_adj = 0.72);
 
     void run();
 
