@@ -2,12 +2,6 @@
 
 Authors : Pedro Senna, Isabela Drummond and Guilherme Bastos
 
-________________
-
-This C++ code implements the Kalman Filter Ensemble-Based Tracker.
-
-The code depends on OpenCV 2.4+ library and is build via cmake toolchain.
-
 _________________
 Dependencies 
 
