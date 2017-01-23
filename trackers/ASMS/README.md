@@ -1,6 +1,7 @@
 ## Robust scale-adaptive mean-shift for tracking
 
 Authors : Tomas Vojir, Jana Noskova, Jiri Matas
+
 Source: github.com/vojirt/asms
 ________________
 
