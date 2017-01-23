@@ -17,6 +17,7 @@ Quick start guide
 
 Open the project in QT creator and build
 
+_________________
 
 Copyright (c) 2017, Pedro Senna
 
