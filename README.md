@@ -8,8 +8,11 @@ Dependencies
 This code was tested in linux systems with the following specifications:
 
 Ubuntu 16.04, probabily work on Ubuntu 12.04, 14.04 or Debian Jessie (8.5)
-gcc 4.8.5
+
+gcc 4.8.5 or below
+
 opencv 3.1.0
+
 QT 5.7
 
 _________________
