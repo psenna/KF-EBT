@@ -2,7 +2,6 @@
 
 Authors : Pedro Senna, Isabela Drummond and Guilherme Bastos
 
-Project page: https://psenna.github.io/kfebt
 _________________
 Dependencies 
 
@@ -60,7 +59,3 @@ The files trackers/CBT/consensus/common.*
 Are provided by Georg Nebehay CppMT implementation
 
 Source: https://github.com/gnebehay/CppMT 
-
-__________________
-
-For more information go to the [project page](https://psenna.github.io/kfebt).
