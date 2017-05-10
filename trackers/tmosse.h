@@ -10,8 +10,6 @@ class tMosse : public BTracker
 public:
     tMosse();
 
-    void run();
-
     void init(cv::Mat& image, cv::Rect region);
     void correctState(std::vector<float> st);
     void track();

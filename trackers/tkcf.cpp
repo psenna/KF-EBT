@@ -65,14 +65,6 @@ void tKCF::update(){
     kcf.updateKernel(kcfPatch);
 }
 
-void tKCF::run(){
-    if(updateModel){
-        update();
-    } else {
-        track();
-    }
-}
-
 void tKCF::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentFrame = image;
     currentPredictRect = predictRect;

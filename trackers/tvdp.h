@@ -10,8 +10,6 @@ class tVDP : public BTracker
 public:
     tVDP(float dist_adj = DIST_ADJ, float conf_adj = 0.72);
 
-    void run();
-
     void init(cv::Mat& image, cv::Rect region);
     void correctState(std::vector<float> st);
     void track();

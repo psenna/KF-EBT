@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 template<typename T> class ComplexMat_
 {

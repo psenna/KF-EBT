@@ -6,14 +6,6 @@ tCBT::tCBT(float dist_adj, float conf_adj)
     this->conf_adj = conf_adj;
 }
 
-void tCBT::run(){
-    if(updateModel){
-        update();
-    } else {
-        track();
-    }
-}
-
 void tCBT::init(cv::Mat &image, cv::Rect region){
     cbt.init(image, region, true);
     ratio = (float)region.height/(float)region.width;

@@ -6,14 +6,6 @@ tVDP::tVDP(float dist_adj, float conf_adj)
     this->conf_adj = conf_adj;
 }
 
-void tVDP::run(){
-    if(updateModel){
-        update();
-    } else {
-        track();
-    }
-}
-
 void tVDP::init(cv::Mat &image, cv::Rect region){
     cbt.init(image, region, false);
     ratio = (float)region.height/(float)region.width;

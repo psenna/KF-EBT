@@ -9,8 +9,6 @@ class tncc : public BTracker
 public:
     tncc();
 
-    void run();
-
     void init(cv::Mat& image, cv::Rect region);
     void correctState(std::vector<float> st);
     void track();

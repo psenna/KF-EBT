@@ -3,9 +3,9 @@ QT -= gui
 
 QMAKE_CXXFLAGS -= -O
 QMAKE_CXXFLAGS -= -O1
-QMAKE_CXXFLAGS *= -O2
+QMAKE_CXXFLAGS -= -O2
 
-QMAKE_CXXFLAGS += -std=gnu++11
+QMAKE_CXXFLAGS += -std=c++11 -pedantic -O3 -Wno-long-long -fno-omit-frame-pointer -Wall
 QMAKE_CXXFLAGS += -march=corei7 -mtune=corei7
 
 TARGET = KF-EBT

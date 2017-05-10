@@ -96,7 +96,6 @@ int main(int argc, char *argv[]){
                 trackers[i]->wait();
                 uncertainty.insert(uncertainty.end(), trackers[i]->stateUncertainty.begin(), trackers[i]->stateUncertainty.end());
                 trackersResults.insert(trackersResults.end(), trackers[i]->state.begin(), trackers[i]->state.end());
-                trackers[i]->updateModel = true;
             }
 
             // Correct the KF
@@ -116,7 +115,6 @@ int main(int argc, char *argv[]){
             // Wait trackers update process
             for(unsigned int i = 0; i < trackers.size(); i++){
                 trackers[i]->wait();
-                trackers[i]->updateModel = false;
             }
 
             // Feedback

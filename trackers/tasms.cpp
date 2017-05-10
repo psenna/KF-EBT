@@ -6,15 +6,6 @@ tASMS::tASMS(float dist_adj, float conf_adj)
     this->conf_adj = conf_adj;
 }
 
-void tASMS::run(){
-    if(updateModel){
-        update();
-    } else {
-        track();
-    }
-}
-
-
 void tASMS::init(cv::Mat& image, cv::Rect region){
     asms.init(image, region.x, region.y, region.x + region.width, region.y + region.height);
     ratio = (float)region.height/(float)region.width;

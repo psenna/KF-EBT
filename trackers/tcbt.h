@@ -9,8 +9,6 @@ class tCBT : public BTracker
 public:
     tCBT(float dist_adj = DIST_ADJ, float conf_adj = 0.9);
 
-    void run();
-
     void init(cv::Mat& image, cv::Rect region);
     void correctState(std::vector<float> st);
     void track();

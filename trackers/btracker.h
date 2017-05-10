@@ -33,6 +33,18 @@ public:
 
     virtual cv::Rect getRect() = 0;
 
+    void run()
+    {
+        if(updateModel){
+            update();
+            updateModel = false;
+        } else {
+            track();
+            updateModel = true;
+        }
+    }
+
 };
+
 
 #endif // BTRACKER_H

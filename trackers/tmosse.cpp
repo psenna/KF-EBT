@@ -52,14 +52,6 @@ void tMosse::update(){
     mosse.updateKernel(mossePatch);
 }
 
-void tMosse::run(){
-    if(updateModel){
-        update();
-    } else {
-        track();
-    }
-}
-
 void tMosse::newFrame(cv::Mat &image, std::vector<float> predictRect){
     currentFrame = image;
     currentPredictRect = predictRect;

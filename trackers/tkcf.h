@@ -10,8 +10,6 @@ class tKCF : public BTracker
 public:
     tKCF(float dist_adj = DIST_ADJ, float conf_adj = 1.1);
 
-    void run();
-
     void init(cv::Mat& image, cv::Rect region);
     void correctState(std::vector<float> st);
     void track();

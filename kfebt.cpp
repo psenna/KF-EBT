@@ -57,7 +57,7 @@ void KFEBT::predict(){
 }
 
 void KFEBT::correct(std::vector<float> measures, std::vector<float> Uncertainty){
-    for(int i = 0; i < measures.size(); i++){
+    for(int i = 0; i < (int)measures.size(); i++){
         KFMeasures.at<double>(i) = measures[i];
         KF.measurementNoiseCov.at<double>(i,i) = Uncertainty[i];
     }
