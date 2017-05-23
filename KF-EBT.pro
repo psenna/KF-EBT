@@ -41,10 +41,7 @@ SOURCES += main.cpp \
     trackers/NCC/ncc.cpp \
     trackers/tncc.cpp \
     trackers/tmosse.cpp \
-    trackers/tvdp.cpp \
-    trackers/ASMS/graytracker.cpp \
-    trackers/ASMS/grayhistogram.cpp \
-    trackers/tgrayasms.cpp
+    trackers/tvdp.cpp
 
 HEADERS += \
     trackers/ASMS/colotracker.h \
@@ -72,10 +69,7 @@ HEADERS += \
     trackers/NCC/ncc.h \
     trackers/tncc.h \
     trackers/tmosse.h \
-    trackers/tvdp.h \
-    trackers/ASMS/graytracker.h \
-    trackers/ASMS/grayhistogram.h \
-    trackers/tgrayasms.h
+    trackers/tvdp.h
 
 DISTFILES += \
     trackers/ASMS/CMakeLists.txt \

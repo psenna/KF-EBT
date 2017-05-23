@@ -23,7 +23,6 @@ int main(int argc, char *argv[]){
     tCBT cbt(ajuste, 0.45);
     tVDP vdp(ajuste, 0.60);
     tncc ncc(ajuste, 0.75);
-    //tGrayASMS gasms(ajuste, 0.7);
 
     KFEBT fusion;
 
@@ -33,7 +32,6 @@ int main(int argc, char *argv[]){
     trackers.push_back(&kcf);
     trackers.push_back(&asms);
     trackers.push_back(&ncc);
-    //trackers.push_back(&gasms);
 
     trax_handle* trax;
     trax_metadata* config = trax_metadata_create(TRAX_REGION_RECTANGLE, TRAX_IMAGE_PATH, "KFebT", "KFebT", "none");
