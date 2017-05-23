@@ -19,7 +19,7 @@ INCLUDEPATH += /usr/local/include/opencv2/
 INCLUDEPATH += /usr/local/include/opencv/
 
 # Opencv
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_ml -lopencv_video -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs -lopencv_tracking -ltrax
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_ml -lopencv_video -lopencv_calib3d -lopencv_videoio -lopencv_imgcodecs -ltrax
 
 SOURCES += main.cpp \
     trackers/ASMS/colotracker.cpp \
@@ -41,7 +41,10 @@ SOURCES += main.cpp \
     trackers/NCC/ncc.cpp \
     trackers/tncc.cpp \
     trackers/tmosse.cpp \
-    trackers/tvdp.cpp
+    trackers/tvdp.cpp \
+    trackers/ASMS/graytracker.cpp \
+    trackers/ASMS/grayhistogram.cpp \
+    trackers/tgrayasms.cpp
 
 HEADERS += \
     trackers/ASMS/colotracker.h \
@@ -69,7 +72,10 @@ HEADERS += \
     trackers/NCC/ncc.h \
     trackers/tncc.h \
     trackers/tmosse.h \
-    trackers/tvdp.h
+    trackers/tvdp.h \
+    trackers/ASMS/graytracker.h \
+    trackers/ASMS/grayhistogram.h \
+    trackers/tgrayasms.h
 
 DISTFILES += \
     trackers/ASMS/CMakeLists.txt \

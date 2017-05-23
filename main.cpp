@@ -7,32 +7,36 @@
 #include "trackers/tcbt.h"
 #include "trackers/tmosse.h"
 #include "trackers/tvdp.h"
+#include "trackers/tgrayasms.h"
+#include "trackers/tncc.h"
 #include "kfebt.h"
-#include <opencv2/tracking.hpp>
-#include <opencv2/tracking/kalman_filters.hpp>
 #include "trax.h"
+
 
 int main(int argc, char *argv[]){
 
-    float ajuste = 0.35;
+    float ajuste = 0.30;
 
     // Alocate trackers
-    tASMS asms(ajuste, 1.00);
+    tASMS asms(ajuste, 1.0);
     tKCF kcf(ajuste, 1.10);
     tCBT cbt(ajuste, 0.45);
     tVDP vdp(ajuste, 0.60);
+    tncc ncc(ajuste, 0.75);
+    //tGrayASMS gasms(ajuste, 0.7);
+
     KFEBT fusion;
 
     std::vector<BTracker*> trackers;
     //trackers.push_back(&cbt);
-    trackers.push_back(&vdp);
+    //trackers.push_back(&vdp);
     trackers.push_back(&kcf);
     trackers.push_back(&asms);
+    trackers.push_back(&ncc);
+    //trackers.push_back(&gasms);
 
     trax_handle* trax;
-    trax_configuration config;
-    config.format_region = TRAX_REGION_RECTANGLE;
-    config.format_image = TRAX_IMAGE_PATH;
+    trax_metadata* config = trax_metadata_create(TRAX_REGION_RECTANGLE, TRAX_IMAGE_PATH, "KFebT", "KFebT", "none");
     trax_image* img = NULL;
     trax_region* rect = NULL;
 
@@ -129,6 +133,7 @@ int main(int argc, char *argv[]){
         }
 
         trax_properties_release(&prop);
+        trax_metadata_release(&config);
 
         /*cv::rectangle(image, fusion.getResult(), cv::Scalar(255, 0, 0));
         cv::imshow("resp", image);

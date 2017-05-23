@@ -1,6 +1,6 @@
 #include "ncc.h"
 
-inline void NCCTracker::init(cv::Mat &img, cv::Rect rect){
+void NCCTracker::init(cv::Mat &img, cv::Rect rect){
     p_window = MAX(rect.width, rect.height) * 2;
 
     cv::Mat gray;
@@ -23,7 +23,7 @@ inline void NCCTracker::init(cv::Mat &img, cv::Rect rect){
 
 }
 
-inline cv::Rect NCCTracker::track(cv::Mat img){
+double NCCTracker::track(cv::Mat img){
 
     cv::Mat gray;
     cv::cvtColor(img, gray, CV_BGR2GRAY);
@@ -37,14 +37,7 @@ inline cv::Rect NCCTracker::track(cv::Mat img){
     cv::Rect roi((int) left, (int) top, (int) (right - left), (int) (bottom - top));
 
     if (roi.width < p_template.cols || roi.height < p_template.rows) {
-        cv::Rect result;
-
-        result.x = p_position.x - p_size.width / 2;
-        result.y = p_position.y - p_size.height / 2;
-        result.width = p_size.width;
-        result.height = p_size.height;
-        return result;
-
+        return 0;
     }
 
     cv::Mat matches;
@@ -53,17 +46,12 @@ inline cv::Rect NCCTracker::track(cv::Mat img){
     cv::matchTemplate(cut, p_template, matches, CV_TM_CCOEFF_NORMED);
 
     cv::Point matchLoc;
-    cv::minMaxLoc(matches, NULL, NULL, NULL, &matchLoc, cv::Mat());
-
-    cv::Rect result;
+    double max;
+    cv::minMaxLoc(matches, NULL, &max, NULL, &matchLoc, cv::Mat());
 
     p_position.x = left + matchLoc.x + (float)p_size.width / 2;
     p_position.y = top + matchLoc.y + (float)p_size.height / 2;
 
-    result.x = left + matchLoc.x;
-    result.y = top + matchLoc.y;
-    result.width = p_size.width;
-    result.height = p_size.height;
+    return max;
 
-    return result;
 }
