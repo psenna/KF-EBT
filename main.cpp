@@ -15,14 +15,15 @@
 
 int main(int argc, char *argv[]){
 
-    float ajuste = 0.30;
-
+    float ajuste = 0.15;
     // Alocate trackers
-    tASMS asms(ajuste, 1.0);
-    tKCF kcf(ajuste, 1.10);
+
+    tASMS asms(ajuste, 0.75);
+    tKCF kcf(ajuste, 1.15);
     tCBT cbt(ajuste, 0.45);
     tVDP vdp(ajuste, 0.60);
-    tncc ncc(ajuste, 0.75);
+    tncc ncc(ajuste, 0.8);
+
 
     KFEBT fusion;
 
