@@ -15,10 +15,12 @@ _________________
 Quick start guide
 
 mkdir build && cd build
+
 cmake ..
+
 make
 
-Will be creator two executables, KF-EBT to be used with the VOT tollkit and KF-EBT_WebCam that runs using a webcam.
+Will be creator two binaries, "KF-EBT" to be used with the VOT tollkit and "KF-EBT_WebCam" that runs using a webcam.
 
 In the KF-EBT_WebCam, select with the mouse the upper left corner and then the lower right corner of the object of interest in the image.
 
