@@ -6,15 +6,14 @@
  */
 
 #include <opencv2/opencv.hpp>
-#include <QThread>
 #include <vector>
 #include <cmath>
+#include <pthread.h>
 
 #define DIST_ADJ 0.30
 
-class BTracker : public QThread
+class BTracker
 {
-    Q_OBJECT
 
 public:
     bool ok;
@@ -43,6 +42,20 @@ public:
             updateModel = true;
         }
     }
+
+    bool start() {
+      return (pthread_create(&_thread, NULL, InternalThreadEntryFunc, this) == 0);
+    }
+
+    /** Will not return until the internal thread has exited. */
+    void wait() {
+       (void) pthread_join(_thread, NULL);
+    }
+
+private:
+   static void * InternalThreadEntryFunc(void * This) {((BTracker *)This)->run(); return NULL;}
+
+   pthread_t _thread;
 
 };
 

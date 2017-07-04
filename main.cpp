@@ -2,18 +2,18 @@
 
 #include <opencv2/opencv.hpp>
 #include <unistd.h>
+#include <pthread.h>
 #include "trackers/tasms.h"
 #include "trackers/tkcf.h"
 #include "trackers/tcbt.h"
 #include "trackers/tmosse.h"
 #include "trackers/tvdp.h"
-#include "trackers/tgrayasms.h"
 #include "trackers/tncc.h"
 #include "kfebt.h"
 #include "trax.h"
 
 
-int main(int argc, char *argv[]){
+int main(void){
 
     float ajuste = 0.15;
     // Alocate trackers
@@ -70,11 +70,6 @@ int main(int argc, char *argv[]){
 
             // Alocate KFEBT
             fusion = KFEBT(9, 3*trackers.size(), 0, 0.05, region);
-            if(argc >= 7){
-                float adj = atof(argv[5]);
-                fusion.setProcessCov(adj);
-            }
-
 
             trax_server_reply(trax, rect, NULL);
 
