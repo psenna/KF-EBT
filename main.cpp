@@ -18,11 +18,11 @@ int main(void){
     float ajuste = 0.15;
     // Alocate trackers
 
-    tASMS asms(ajuste, 0.75);
+    tASMS asms(ajuste, 0.90);
     tKCF kcf(ajuste, 1.15);
     tCBT cbt(ajuste, 0.45);
     tVDP vdp(ajuste, 0.60);
-    tncc ncc(ajuste, 0.8);
+    tncc ncc(ajuste, 0.7);
 
 
     KFEBT fusion;
