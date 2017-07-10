@@ -1,38 +1,15 @@
 // VOT test
 
 #include <opencv2/opencv.hpp>
-#include <unistd.h>
 #include <pthread.h>
-#include "trackers/tasms.h"
-#include "trackers/tkcf.h"
-#include "trackers/tcbt.h"
-#include "trackers/tmosse.h"
-#include "trackers/tvdp.h"
-#include "trackers/tncc.h"
-#include "kfebt.h"
+#include "kfebtracker.h"
 #include "trax.h"
 
 
 int main(void){
 
-    float ajuste = 0.15;
-    // Alocate trackers
-
-    tASMS asms(ajuste, 0.90);
-    tKCF kcf(ajuste, 1.15);
-    tCBT cbt(ajuste, 0.45);
-    tVDP vdp(ajuste, 0.60);
-    tncc ncc(ajuste, 0.7);
-
-
-    KFEBT fusion;
-
-    std::vector<BTracker*> trackers;
-    //trackers.push_back(&cbt);
-    //trackers.push_back(&vdp);
-    trackers.push_back(&kcf);
-    trackers.push_back(&asms);
-    trackers.push_back(&ncc);
+    KFebTracker tracker;
+    tracker.init("AKN");
 
     trax_handle* trax;
     trax_metadata* config = trax_metadata_create(TRAX_REGION_RECTANGLE, TRAX_IMAGE_PATH, "KFebT", "KFebT", "none");
@@ -44,7 +21,7 @@ int main(void){
 
     cv::Rect region;
     cv::Mat image;
-    std::vector<float> uncertainty, trackersResults;
+
     bool run = 1;
 
     while (run){
@@ -63,13 +40,8 @@ int main(void){
             region.height = height;
             image = cv::imread(img->data);
 
-            // Inicializatiuon
-            for(unsigned int i = 0; i < trackers.size(); i++){
-                trackers[i]->init(image, region);
-            }
-
-            // Alocate KFEBT
-            fusion = KFEBT(9, 3*trackers.size(), 0, 0.05, region);
+            // Initialize trackers
+            tracker.initTrackers(image, region);
 
             trax_server_reply(trax, rect, NULL);
 
@@ -81,47 +53,12 @@ int main(void){
                 break;
             }
 
-            // Start trackers
-            for(unsigned int i = 0; i < trackers.size(); i++){
-                trackers[i]->newFrame(image, fusion.getPrediction());
-                trackers[i]->start();
-            }
-
-            // Wait and get results
-            uncertainty.clear();
-            trackersResults.clear();
-            for(unsigned int i = 0; i < trackers.size(); i++){
-                trackers[i]->wait();
-                uncertainty.insert(uncertainty.end(), trackers[i]->stateUncertainty.begin(), trackers[i]->stateUncertainty.end());
-                trackersResults.insert(trackersResults.end(), trackers[i]->state.begin(), trackers[i]->state.end());
-            }
-
-            // Correct the KF
-            fusion.correct(trackersResults, uncertainty);
-
-            // Model Update
-            for(unsigned int i = 0; i < trackers.size(); i++){
-                trackers[i]->start();
-            }
-
             //Report result
-            cv::Rect output = fusion.getResult();
+            cv::Rect output = tracker.track(image);
             trax_region* region = trax_region_create_rectangle(output.x, output.y, output.width, output.height);
             trax_server_reply(trax, region, NULL);
             trax_region_release(&region);
 
-            // Wait trackers update process
-            for(unsigned int i = 0; i < trackers.size(); i++){
-                trackers[i]->wait();
-            }
-
-            // Feedback
-            for(unsigned int i = 0; i < trackers.size(); i++){
-                trackers[i]->correctState(fusion.getFusion());
-            }
-
-            // Predict next frame state
-            fusion.predict();
         } else {
             run = 0;
         }

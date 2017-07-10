@@ -34,9 +34,12 @@ Thumbs.db
 *.rc
 /.qmake.cache
 /.qmake.stash
+*build_dir/*
+*build/*
 
 # qtcreator generated files
 *.pro.user*
+*.user*
 
 # xemacs temporary files
 *.flc
