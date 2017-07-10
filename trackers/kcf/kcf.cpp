@@ -53,7 +53,6 @@ void KCF_Tracker::track(cv::Mat &img)
     double min_val, max_val;
     cv::Point2i min_loc, max_loc;
     cv::minMaxLoc(response, &min_val, &max_val, &min_loc, &max_loc);
-    cv::imshow("kcf", response);
     correlation = max_val;
 
     if (max_loc.y > zf.rows/2) //wrap around to negative half-space of vertical axis

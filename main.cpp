@@ -2,6 +2,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <unistd.h>
+#include <pthread.h>
 #include "trackers/tasms.h"
 #include "trackers/tkcf.h"
 #include "trackers/tcbt.h"
@@ -12,16 +13,16 @@
 #include "trax.h"
 
 
-int main(int argc, char *argv[]){
+int main(void){
 
     float ajuste = 0.15;
     // Alocate trackers
 
-    tASMS asms(ajuste, 0.75);
+    tASMS asms(ajuste, 0.90);
     tKCF kcf(ajuste, 1.15);
     tCBT cbt(ajuste, 0.45);
     tVDP vdp(ajuste, 0.60);
-    tncc ncc(ajuste, 0.8);
+    tncc ncc(ajuste, 0.7);
 
 
     KFEBT fusion;
@@ -69,11 +70,6 @@ int main(int argc, char *argv[]){
 
             // Alocate KFEBT
             fusion = KFEBT(9, 3*trackers.size(), 0, 0.05, region);
-            if(argc >= 7){
-                float adj = atof(argv[5]);
-                fusion.setProcessCov(adj);
-            }
-
 
             trax_server_reply(trax, rect, NULL);
 

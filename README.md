@@ -9,16 +9,20 @@ This code was tested in linux systems with the following specifications:
 
 Ubuntu 16.04, probabily work on Ubuntu 12.04, 14.04 or Debian Jessie (8.5)
 
-gcc 4.8.5 or below
-
 opencv 3.1.0
-
-QT 5.7
 
 _________________
 Quick start guide
 
-Open the project in QT creator and build
+mkdir build && cd build
+
+cmake ..
+
+make
+
+Will be creator two binaries, "KF-EBT" to be used with the VOT tollkit and "KF-EBT_WebCam" that runs using a webcam.
+
+In the KF-EBT_WebCam, select with the mouse the upper left corner and then the lower right corner of the object of interest in the image.
 
 _________________
 

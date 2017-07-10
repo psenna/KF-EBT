@@ -19,8 +19,6 @@ static void onMouse( int event, int x, int y, int, void* ){
     if( event != cv::EVENT_LBUTTONDOWN || rectOK)
         return;
 
-    std::cout << "event " << (int) mousePress << " " << (int) rectOK << "\n";
-
     if(mousePress){
         initRect.width = x - initRect.x;
         initRect.height = y - initRect.y;
@@ -44,11 +42,12 @@ int main(int argc, char *argv[]){
     float ajuste = 0.15;
     // Alocate trackers
 
-    tASMS asms(ajuste, 0.75);
+    tASMS asms(ajuste, 0.90);
     tKCF kcf(ajuste, 1.15);
     tCBT cbt(ajuste, 0.45);
     tVDP vdp(ajuste, 0.60);
-    tncc ncc(ajuste, 0.8);
+    tncc ncc(ajuste, 0.7);
+
 
 
     KFEBT fusion;
@@ -66,10 +65,13 @@ int main(int argc, char *argv[]){
     bool run = 1;
 
     cv::VideoCapture cam(CAMERA);
+    if(!cam.isOpened()){
+        std::cout << "Error: Camera not found!\n";
+        return 1;
+    }
     cam >> image;
     cv::imshow("result", image);
     cv::setMouseCallback("result", onMouse,0);
-    std::cout << image.size() << "\n";
 
     while(!mousePress){
         cam >> image;
