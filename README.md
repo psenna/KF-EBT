@@ -25,7 +25,26 @@ Will be creator two binaries, "KF-EBT" to be used with the VOT tollkit and "KF-E
 In the KF-EBT_WebCam, select with the mouse the upper left corner and then the lower right corner of the object of interest in the image.
 
 _________________
+References
 
+If you find it useful or use it in your research, please cite our [paper] (http://urlib.net/sid.inpe.br/sibgrapi/2017/08.21.23.41).
+
+@InProceedings{SennaDrumBast:2017:ReEnTr,
+               author = "Senna, Pedro and Drummond, Isabela Neves and Bastos, Guilherme 
+                         Sousa",
+                title = "Real-time ensemble-based tracker with Kalman 
+                         filter",
+            booktitle = "Proceedings...",
+                 year = "2017",
+         organization = "Conference on Graphics, Patterns and Images, 30. 
+                         (SIBGRAPI)",
+  conference-location = "Niter{\'o}i, RJ",
+      conference-year = "Oct. 17-20, 2017",
+             language = "en",
+                  url = "http://urlib.net/sid.inpe.br/sibgrapi/2017/08.21.23.41"
+}
+
+_________________
 Copyright (c) 2017, Pedro Senna
 
 Permission to use, copy, modify, and distribute this software for research purposes is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
