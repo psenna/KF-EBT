@@ -29,6 +29,7 @@ References
 
 If you find it useful or use it in your research, please cite our [paper] (http://urlib.net/sid.inpe.br/sibgrapi/2017/08.21.23.41).
 
+~~~{yaml}
 @InProceedings{SennaDrumBast:2017:ReEnTr,
                author = "Senna, Pedro and Drummond, Isabela Neves and Bastos, Guilherme 
                          Sousa",
@@ -43,7 +44,7 @@ If you find it useful or use it in your research, please cite our [paper] (http:
              language = "en",
                   url = "http://urlib.net/sid.inpe.br/sibgrapi/2017/08.21.23.41"
 }
-
+~~~
 _________________
 Copyright (c) 2017, Pedro Senna
 
