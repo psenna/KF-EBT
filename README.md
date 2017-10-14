@@ -31,14 +31,11 @@ If you find it useful or use it in your research, please cite [our paper](http:/
 
 ~~~{yaml}
 @InProceedings{SennaDrumBast:2017:ReEnTr,
-               author = "Senna, Pedro and Drummond, Isabela Neves and Bastos, Guilherme 
-                         Sousa",
-                title = "Real-time ensemble-based tracker with Kalman 
-                         filter",
-            booktitle = "Proceedings...",
+               author = "Senna, Pedro and Drummond, Isabela Neves and Bastos, Guilherme Sousa",
+                title = "Real-time ensemble-based tracker with Kalman filter",
+            booktitle = "Electronic Proceedings of the 30th Conference on Graphics, Patterns and Images (SIBGRAPI'17)",
                  year = "2017",
-         organization = "Conference on Graphics, Patterns and Images, 30. 
-                         (SIBGRAPI)",
+         organization = "Conference on Graphics, Patterns and Images, 30.(SIBGRAPI)",
   conference-location = "Niter{\'o}i, RJ",
       conference-year = "Oct. 17-20, 2017",
              language = "en",
