@@ -27,7 +27,7 @@ In the KF-EBT_WebCam, select with the mouse the upper left corner and then the l
 _________________
 References
 
-If you find it useful or use it in your research, please cite [our paper](http://urlib.net/sid.inpe.br/sibgrapi/2017/08.21.23.41).
+If you find it useful or use it in your research, please cite [our paper](https://psenna.github.io/Papers/PID4960379.pdf).
 
 ~~~{yaml}
 @InProceedings{SennaDrumBast:2017:ReEnTr,
