@@ -5,6 +5,7 @@
 
 #define MINSIZE 44
 #define KCF_PADDING 1.5
+#define MIN_RATIO 0.9
 
 class Adjust
 {

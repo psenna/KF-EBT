@@ -68,15 +68,20 @@ void ColorTracker::init(cv::Mat & img, int x1, int y1, int x2, int y2)
 
 }
 
-void ColorTracker::update(){
+void ColorTracker::update(float ratio){
     int x1, x2, y1, y2;
     x1 = lastPosition.x;
     y1 = lastPosition.y;
     x2 = lastPosition.x + lastPosition.width;
     y2 = lastPosition.y + lastPosition.height;
+    //boundary checks
+    y1 = std::max(0, y1);
+    y2 = std::min(im1.rows-1, y2);
+    x1 = std::max(0, x1);
+    x2 = std::min(im1.cols-1, x2);
 
     extractForegroundHistogram(x1, y1, x2, y2, q_hist);
-    q_orig_hist.adapt(&q_hist, UPDATE_RATE);
+    q_orig_hist.adapt(q_hist, ratio);
 }
 
 cv::Point ColorTracker::histMeanShift(double x1, double y1, double x2, double y2){

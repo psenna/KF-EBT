@@ -82,7 +82,7 @@ public:
     {
         return track(img, lastPosition.x, lastPosition.y, lastPosition.x + lastPosition.width, lastPosition.y + lastPosition.height, confidence);
     }
-    void update();
+    void update(float ratio);
 };
 
 #endif // COLOTRACKER_H

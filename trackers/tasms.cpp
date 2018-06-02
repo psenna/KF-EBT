@@ -4,6 +4,8 @@ tASMS::tASMS(float dist_adj, float conf_adj)
 {
     this->dist_adj = dist_adj;
     this->conf_adj = conf_adj;
+    this->feedbackRatio = FEED_RATIO;
+    this->updateRatio = 0.03;
 }
 
 void tASMS::init(cv::Mat& image, cv::Rect region){
@@ -13,7 +15,7 @@ void tASMS::init(cv::Mat& image, cv::Rect region){
 }
 
 void tASMS::correctState(std::vector<float> st){
-    this->state = st;
+    updateStateFeedback(st);
     asms.lastPosition.height = st[2]*ratio;
     asms.lastPosition.width = st[2];
     asms.lastPosition.x = st[0] - asms.lastPosition.width/2;
@@ -21,7 +23,7 @@ void tASMS::correctState(std::vector<float> st){
 }
 
 void tASMS::track(){
-    double confidenceASMS = 0;
+    confidenceASMS = 0;
     cv::Rect asmsRect;
     BBox * bb = asms.track(currentFrame, &confidenceASMS);
 
@@ -47,7 +49,7 @@ void tASMS::track(){
 }
 
 void tASMS::update(){
-    //asms.update();
+    asms.update(confidenceASMS * updateRatio);
 }
 
 void tASMS::newFrame(cv::Mat &image, std::vector<float> predictRect){

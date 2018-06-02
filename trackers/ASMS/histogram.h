@@ -36,7 +36,7 @@ public:
     void transformToWeights();
     void transformByWeight(double min);
     void multiplyByWeights(Histogram * hist);
-    void adapt(Histogram * hist, float height);
+    void adapt(Histogram hist, float height);
 
     void clear();
     void normalize();

@@ -45,7 +45,7 @@ public:
     BBox_c getBBox();
 
     // kernel update
-    void updateKernel(cv::Mat img);
+    void updateKernel(cv::Mat img, float ratio);
     cv::Point2f getError();
     double correlation;
 

@@ -2,11 +2,11 @@
 
 KFebTracker::KFebTracker()
 {
-    asms = tASMS(ajuste, 0.90);
-    kcf = tKCF(ajuste, 1.15);
-    cbt = tCBT(ajuste, 0.45);
-    vdp = tVDP(ajuste, 0.60);
-    ncc = tncc(ajuste, 0.7);
+    asms = tASMS(ajuste, 1.0f);
+    kcf = tKCF(ajuste, 1.15f);
+    cbt = tCBT(ajuste, 0.45f);
+    vdp = tVDP(ajuste, 0.60f);
+    ncc = tncc(ajuste, 0.7f);
 }
 
 /* Initiation Parameters

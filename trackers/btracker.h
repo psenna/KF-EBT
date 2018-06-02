@@ -11,6 +11,7 @@
 #include <pthread.h>
 
 #define DIST_ADJ 0.30
+#define FEED_RATIO 0.90
 
 class BTracker
 {
@@ -21,6 +22,7 @@ public:
     float dist_adj;
     float conf_adj;
     double ratio;
+    double feedbackRatio;
     std::vector<float> state;
     std::vector<float> stateUncertainty;
 
@@ -31,6 +33,14 @@ public:
     virtual void newFrame(cv::Mat& image, std::vector<float> predictRect) = 0;
 
     virtual cv::Rect getRect() = 0;
+
+    void updateStateFeedback(std::vector<float> newState)
+    {
+        for(int i = 0; i < (int)state.size() && i< (int)newState.size(); i++)
+        {
+            state[i] = newState[i]*feedbackRatio + state[i]*(1-feedbackRatio);
+        }
+    }
 
     void run()
     {

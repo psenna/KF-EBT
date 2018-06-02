@@ -4,6 +4,7 @@ tncc::tncc(float dist_adj, float conf_adj)
 {
     this->dist_adj = dist_adj;
     this->conf_adj = conf_adj;
+    this->feedbackRatio = FEED_RATIO;
 }
 
 void tncc::init(cv::Mat& image, cv::Rect region){
@@ -13,7 +14,7 @@ void tncc::init(cv::Mat& image, cv::Rect region){
 }
 
 void tncc::correctState(std::vector<float> st){
-    this->state = st;
+    updateStateFeedback(st);
     ncc.p_position = cv::Point2f(st[0], st[1]);
     ncc.p_size.width = st[2];
     ncc.p_size.height = st[2]*ratio;

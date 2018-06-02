@@ -71,7 +71,7 @@ void KCF_Tracker::track(cv::Mat &img)
     //    p_model_alphaf = p_model_alphaf_num / p_model_alphaf_den;
 }
 
-void KCF_Tracker::updateKernel(cv::Mat img){
+void KCF_Tracker::updateKernel(cv::Mat img, float ratio){
     img.convertTo(img, CV_32FC1);
     ComplexMat xf = fft2(p_fhog.extract(img, 2, p_cell_size, 9), p_cos_window);
     //Kernel Ridge Regression, calculate alphas (in Fourier domain)
@@ -80,8 +80,8 @@ void KCF_Tracker::updateKernel(cv::Mat img){
     ComplexMat alphaf = p_yf / (kf + p_lambda); //equation for fast training
 
     //subsequent frames, interpolate model
-    p_model_xf = p_model_xf * (1. - p_interp_factor) + xf * p_interp_factor;
-    p_model_alphaf = p_model_alphaf * (1. - p_interp_factor) + alphaf * p_interp_factor;
+    p_model_xf = p_model_xf * (1. - ratio) + xf * ratio;
+    p_model_alphaf = p_model_alphaf * (1. - ratio) + alphaf * ratio;
 }
 
 cv::Point2f KCF_Tracker::getError(){

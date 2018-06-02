@@ -20,6 +20,7 @@ public:
 private:
     KCF_Tracker kcf;
     Adjust adj;
+    float updateRatio;
     cv::Rect region;
     cv::Mat grayImage;
     cv::Mat currentFrame;
