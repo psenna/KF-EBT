@@ -5,7 +5,7 @@ tASMS::tASMS(float dist_adj, float conf_adj)
     this->dist_adj = dist_adj;
     this->conf_adj = conf_adj;
     this->feedbackRatio = FEED_RATIO;
-    this->updateRatio = 0.03;
+    this->updateRatio = 0.02;
 }
 
 void tASMS::init(cv::Mat& image, cv::Rect region){

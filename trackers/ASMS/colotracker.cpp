@@ -154,7 +154,7 @@ cv::Point ColorTracker::histMeanShift(double x1, double y1, double x2, double y2
 
 cv::Point ColorTracker::histMeanShiftIsotropicScale(double x1, double y1, double x2, double y2, double * scale, int * iter, double* similarity)
 {
-    int maxIter = 15;
+    int maxIter = 10;
 
     double w2 = (x2-x1)/2;
     double h2 = (y2-y1)/2;
