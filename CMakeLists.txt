@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(KF-EBT C CXX)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -O2 -Wno-long-long -fno-omit-frame-pointer -lpthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -O2 -Wno-long-long -fno-omit-frame-pointer -lpthread -msse -msse2 -msse3")
 
 FIND_PACKAGE( OpenCV REQUIRED )
 FIND_PACKAGE (Threads REQUIRED)

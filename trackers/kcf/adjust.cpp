@@ -14,11 +14,20 @@ cv::Mat Adjust::init(cv::Mat& image, cv::Rect rect){
     float border_w = w;
 
     if(h < w){
+
+        if(h < w*MIN_RATIO){
+            h = w*MIN_RATIO;
+        }
+
         if(h < MINSIZE){
             w *= (MINSIZE/h);
             h = MINSIZE;
         }
     } else {
+        if(w < h*MIN_RATIO){
+            w = h*MIN_RATIO;
+        }
+
         if(w < MINSIZE){
             h *= (MINSIZE/w);
             w = MINSIZE;

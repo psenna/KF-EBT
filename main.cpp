@@ -9,7 +9,7 @@
 int main(void){
 
     KFebTracker tracker;
-    tracker.init("AKN");
+    tracker.init("AK");
 
     trax_handle* trax;
     trax_metadata* config = trax_metadata_create(TRAX_REGION_RECTANGLE, TRAX_IMAGE_PATH, "KFebT", "KFebT", "none");

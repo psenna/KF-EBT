@@ -19,6 +19,8 @@ public:
 
 private:
     ColorTracker asms;
+    float updateRatio;
+    double confidenceASMS;
     cv::Mat currentFrame;
     std::vector<float> currentPredictRect;
 };

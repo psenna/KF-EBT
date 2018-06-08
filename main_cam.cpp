@@ -33,9 +33,8 @@ int main(void){
     rectOK = false;
 
     KFebTracker tracker;
-    tracker.init("AKN");
+    tracker.init("AK");
 
-    cv::Rect region;
     cv::Mat image;
     bool run = 1;
 
