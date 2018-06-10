@@ -12,6 +12,11 @@ Ubuntu 16.04, probabily work on Ubuntu 12.04, 14.04 or Debian Jessie (8.5)
 opencv 3.1.0
 
 _________________
+Tests videos
+
+https://www.youtube.com/playlist?list=PLuCzbviUtv_HWaTeeCcmCDxa09hdahimf
+
+_________________
 Quick start guide
 
 mkdir build && cd build
@@ -42,12 +47,6 @@ If you find it useful or use it in your research, please cite [our paper](https:
                   url = "http://urlib.net/sid.inpe.br/sibgrapi/2017/08.21.23.41"
 }
 ~~~
-
-_________________
-Tests videos
-
-https://www.youtube.com/playlist?list=PLuCzbviUtv_HWaTeeCcmCDxa09hdahimf
-
 _________________
 Copyright (c) 2017, Pedro Senna
 
