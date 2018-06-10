@@ -42,6 +42,12 @@ If you find it useful or use it in your research, please cite [our paper](https:
                   url = "http://urlib.net/sid.inpe.br/sibgrapi/2017/08.21.23.41"
 }
 ~~~
+
+_________________
+Tests videos
+
+https://www.youtube.com/playlist?list=PLuCzbviUtv_HWaTeeCcmCDxa09hdahimf
+
 _________________
 Copyright (c) 2017, Pedro Senna
 
