@@ -76,12 +76,11 @@ The files in trackers/ASMS are provided by Tomáš Vojíř ASMS implementation
 Source: https://github.com/vojirt/asms
 
 
-The files trackers/CBT/consensus/common.*
-
-				/Consensus.*
-
-				/fastcluster/*
+The files in trackers/CBT/consensus/
 
 Are provided by Georg Nebehay CppMT implementation
 
 Source: https://github.com/gnebehay/CppMT 
+
+The Files in trackers/NCC/* and vot.h file are provided by VootToolkit
+Source: https://github.com/votchallenge/vot-toolkit
