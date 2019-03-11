@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <numeric>
 #include "piotr_fhog/fhog.hpp"
 #include "complexmat.hpp"
 
