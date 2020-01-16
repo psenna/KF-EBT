@@ -12,8 +12,8 @@ int main(void){
     tracker.init("AK");
 
     trax_handle* trax;
-    trax_metadata* config = trax_metadata_create(TRAX_REGION_RECTANGLE, TRAX_IMAGE_PATH, "KFebT", "KFebT", "none");
-    trax_image* img = NULL;
+    trax_metadata* config = trax_metadata_create(TRAX_REGION_RECTANGLE, TRAX_IMAGE_PATH, TRAX_CHANNEL_COLOR, "KFebT", "KFebT", "none");
+    trax_image_list* img = NULL;
     trax_region* rect = NULL;
 
     // Call trax_server_setup to initialize trax protocol
@@ -38,7 +38,7 @@ int main(void){
             region.y = y;
             region.width = width;
             region.height = height;
-            image = cv::imread(img->data);
+            image = cv::imread(img->images[0]->data);
 
             // Initialize trackers
             tracker.initTrackers(image, region);
@@ -48,7 +48,7 @@ int main(void){
         } else if (tr == TRAX_FRAME) {
 
             // Read image
-            image = cv::imread(img->data);
+            image = cv::imread(img->images[0]->data);
             if(image.empty()){
                 break;
             }
