@@ -1,16 +1,11 @@
 #ifndef COLOTRACKER_H
 #define COLOTRACKER_H
 
-#include "cv.h"
-#include "highgui.h"
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 #include "region.h"
 #include "histogram.h"
 #include <iostream>
-
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/features2d/features2d.hpp"
-#include "opencv2/video/video.hpp"
 
 //#define SHOWDEBUGWIN
 

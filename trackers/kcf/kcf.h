@@ -1,7 +1,7 @@
 #ifndef KCF_HEADER
 #define KCF_HEADER
 
-#include <opencv2/opencv.hpp>
+#include <opencv/cv.h>
 #include <vector>
 #include <numeric>
 #include "piotr_fhog/fhog.hpp"
