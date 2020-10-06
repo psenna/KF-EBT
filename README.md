@@ -1,6 +1,6 @@
 ## Kalman Filter Ensemble-Based Tracker
 
-Authors : Pedro Senna (pedrosennapsc@unifei.edu.br) , Isabela Drummond and Guilherme Bastos
+Authors : Pedro Senna (pedro.senna@ufms.br) , Isabela Drummond and Guilherme Bastos
 
 _________________
 Dependencies 
